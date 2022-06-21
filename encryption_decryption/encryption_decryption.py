@@ -31,14 +31,16 @@ def get_args():
     parser.add_argument('-e',
                         '--encrypt',
                         help='encrypt text',
-                        type=bool,
-                        default=False)
+                        dest='encrypt',
+                        default=True,
+                        action='store_true')
 
     parser.add_argument('-d',
                         '--decrypt',
                         help='decrypt text',
-                        type=bool,
-                        default=False)
+                        dest='encrypt',
+                        default=True,
+                        action='store_false')
 
     return parser.parse_args()
 
@@ -48,20 +50,18 @@ def main() -> None:
     text: str = args.text
     transformation_pattern: str = args.transformation
     encrypt: bool = args.encrypt
-    decrypt: bool = args.decrypt
-    dictionary: Dict[str] = create_dictionary(transformation_pattern=transformation_pattern,
-                                              encrypt=encrypt, decrypt=decrypt)
+    dictionary: Dict[str] = create_dictionary(transformation_pattern=transformation_pattern, encrypt=encrypt)
     translated_text: str = translate_text(text_to_translate=text, dictionary=dictionary)
     print(translated_text)
     pass
 
 
-def create_dictionary(transformation_pattern: str, encrypt: bool, decrypt: bool) -> dict:
+def create_dictionary(transformation_pattern: str, encrypt: bool) -> dict:
     dictionary: Dict[str] = {}
     if encrypt:
         for i in range(0, len(transformation_pattern)):
             dictionary.update({ascii_lowercase[i]: transformation_pattern[i]})
-    if decrypt:
+    else:
         for i in range(0, len(ascii_lowercase)):
             dictionary.update({transformation_pattern[i]: ascii_lowercase[i]})
     return dictionary
