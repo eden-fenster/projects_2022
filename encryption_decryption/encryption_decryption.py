@@ -7,6 +7,7 @@ Purpose: encryption_decryption
 
 # --------------------------------------------------
 import argparse
+import os
 from string import ascii_lowercase
 import ast
 
@@ -50,7 +51,12 @@ def get_args():
                         help='Write Dict to file',
                         default='')
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    if os.path.isfile(args.transformation):
+        args.transformation = open(args.transformation).read().rstrip()
+
+    return args
 
 
 def main() -> None:
@@ -58,14 +64,9 @@ def main() -> None:
     text: str = args.text
     transformation_pattern: str = args.transformation
     encrypt: bool = args.encrypt
-    open_from_file = args.file_dict
     outfile = args.outfile
 
-    if open_from_file:
-        with open("/path/to/file", "r") as data:
-            dictionary = ast.literal_eval(data.read())
-    else:
-        dictionary = create_dictionary(transformation_pattern=transformation_pattern, encrypt=encrypt)
+    dictionary: dict = create_dictionary(transformation_pattern=transformation_pattern, encrypt=encrypt)
 
     if outfile:
         out_fh = open(outfile, 'wt')
