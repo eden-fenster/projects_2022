@@ -7,10 +7,8 @@ Purpose: encryption_decryption
 
 # --------------------------------------------------
 import argparse
-from dataclasses import dataclass
-import random
 from string import ascii_lowercase
-from typing import Dict
+import ast
 
 
 def get_args():
@@ -42,6 +40,16 @@ def get_args():
                         default=True,
                         action='store_false')
 
+    parser.add_argument('-f',
+                        '--file-dict',
+                        help='Get Dict from file',
+                        default='')
+
+    parser.add_argument('-o',
+                        '--outfile',
+                        help='Write Dict to file',
+                        default='')
+
     return parser.parse_args()
 
 
@@ -50,14 +58,26 @@ def main() -> None:
     text: str = args.text
     transformation_pattern: str = args.transformation
     encrypt: bool = args.encrypt
-    dictionary: Dict[str] = create_dictionary(transformation_pattern=transformation_pattern, encrypt=encrypt)
+    open_from_file = args.file_dict
+    outfile = args.outfile
+
+    if open_from_file:
+        with open("/path/to/file", "r") as data:
+            dictionary = ast.literal_eval(data.read())
+    else:
+        dictionary = create_dictionary(transformation_pattern=transformation_pattern, encrypt=encrypt)
+
+    if outfile:
+        out_fh = open(outfile, 'wt')
+        out_fh.write(str(dictionary))
+        out_fh.close()
+
     translated_text: str = translate_text(text_to_translate=text, dictionary=dictionary)
     print(translated_text)
-    pass
 
 
 def create_dictionary(transformation_pattern: str, encrypt: bool) -> dict:
-    dictionary: Dict[str] = {}
+    dictionary: dict = {}
     if encrypt:
         for i in range(0, len(transformation_pattern)):
             dictionary.update({ascii_lowercase[i]: transformation_pattern[i]})
