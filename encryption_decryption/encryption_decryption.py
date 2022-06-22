@@ -41,11 +41,6 @@ def get_args():
                         default=True,
                         action='store_false')
 
-    parser.add_argument('-f',
-                        '--file-dict',
-                        help='Get Dict from file',
-                        default='')
-
     parser.add_argument('-o',
                         '--outfile',
                         help='Write Dict to file',
