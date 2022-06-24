@@ -3,10 +3,6 @@ from dataclasses import dataclass
 
 
 class Employee:
-    name: str = 'John Smith'
-    age: int = 35
-    salary: int = 10000
-    pension: int = 12000
 
     def __init__(self, name, age, salary, pension):
         self._name = name
@@ -25,7 +21,6 @@ print(vars(bob))
 
 @dataclass
 class Manager(Employee):
-    group: str = 'QA'
 
     def __init__(self, name, age, salary, pension, group):
         super().__init__(name, age, salary, pension)

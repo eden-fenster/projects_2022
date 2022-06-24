@@ -3,8 +3,6 @@ from dataclasses import dataclass
 
 
 class Robot:
-    metal: str = 'Iron'
-    age: int = 24
 
     def __init__(self, metal, age):
         self._metal = metal
@@ -21,8 +19,6 @@ robot.print_robot()
 
 @dataclass
 class PizzaRobot(Robot):
-    ptype: str = "Hawaiian"
-    workplace: str = 'Dominos'
 
     def __init__(self, metal, age, ptype, workplace):
         super().__init__(metal, age)
