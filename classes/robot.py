@@ -9,7 +9,6 @@ class Robot:
     def __init__(self, metal, age):
         self._metal = metal
         self._age = age
-        pass
 
     def print_robot(self):
         print(self._metal, end=', ')
