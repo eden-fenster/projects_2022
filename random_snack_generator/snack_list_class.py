@@ -4,8 +4,8 @@ Author : eden <eden@localhost>
 Date   : 2022-27-06
 Purpose: Random Snack Generator
 """
-from random import random
 from typing import List
+import random
 from dataclasses import dataclass
 
 
