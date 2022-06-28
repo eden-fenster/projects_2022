@@ -21,11 +21,11 @@ class Car:
         self._owners += 1
 
     def car_details(self) -> str:
-        return " company " + self._comp \
-               + " model " + self._model \
-               + " id " + self._id + \
-               " price " + str(self._price) \
-               + " owners " + str(self._owners)
+        return f'company: {self._comp} \n' \
+               f'model: {self._model} \n' \
+               f'id: {self._id} \n' \
+               f'price: {self._price} \n' \
+               f'owners: {self._owners}'
 
 
 car = Car(comp='Toyota', model='Corolla', ide='12t386w', price=10000, owners=6)
