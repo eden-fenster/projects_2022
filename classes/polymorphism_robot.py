@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from typing import List
 
 
 class Robot:
@@ -12,20 +13,30 @@ class Robot:
     def name(self):
         return self._name
 
-    @property
-    def workplace(self):
-        return self._workplace
-
     @abstractmethod
     def make_food(self):
         pass
 
 
 class PizzaRobot(Robot):
+    def __init__(self, name, metal, age, workplace):
+        super().__init__(name, metal, age, workplace)
+
     def make_food(self):
-        print(f"Making Pizza")
+        print(f"{self._name} is making Pizza")
 
 
 class GarlicBreadRobot(Robot):
+    def __init__(self, name, metal, age, workplace):
+        super().__init__(name, metal, age, workplace)
+
     def make_food(self):
-        print(f"Making Garlic Bread")
+        print(f"{self._name} is making Garlic Bread")
+
+
+garlic_bread = GarlicBreadRobot('Leaf', 'Steel', 33, 'Dominos')
+pizza = PizzaRobot('Pepperoni', 'foil', 22, 'Dominos')
+robot_list: List[Robot] = [garlic_bread, pizza]
+
+for robot in robot_list:
+    robot.make_food()
