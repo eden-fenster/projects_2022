@@ -90,9 +90,5 @@ def test_compare_numbers():
     assert cr.correct_numbers == 5
 
 
-def test_generate_number():
-    assert generator(2, False) == '12'
-
-
 if __name__ == '__main__':
     main()
