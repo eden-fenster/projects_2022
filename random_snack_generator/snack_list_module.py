@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Author : eden <eden@localhost>
-Date   : 2022-02-06
+Date   : 2022-07-06
 Purpose: Random Snack Generator
 """
 
@@ -9,8 +9,10 @@ import argparse
 
 
 # --------------------------------------------------
-import random
 from typing import List
+
+from add_snacks import add_snacks as add_snacks
+from choose_random_snack import choose_random_snack as choose_random_snack
 
 
 def get_args():
@@ -31,24 +33,9 @@ def get_args():
 def main():
     args = get_args()
     snacks: str = args.snacks
-    print(add_snacks(snacks=snacks))
+    snack_list: List[str] = add_snacks(snacks=snacks)
+    print(choose_random_snack(snack_list))
 
 
-def add_snacks(snacks: str) -> str:
-    number_of_snacks: int = len(snacks)
-    snacks_in_house: List[str] = []
-    if number_of_snacks == 1:
-        snacks_in_house.append(snacks[0])
-    if number_of_snacks > 1:
-        for snack in snacks:
-            snacks_in_house.append(snack)
-    return ' '.join(snacks_in_house)
-
-
-def choose_random_snack(snacks: List[str]) -> str:
-    return random.choice(snacks)
-
-
-# --------------------------------------------------
 if __name__ == '__main__':
     main()
