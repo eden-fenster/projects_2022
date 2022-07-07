@@ -9,17 +9,19 @@ class ComparisonResults:
     had_error: bool
 
 
-def compare_numbers(correct_number: str, guessed_number: str, number_of_digits: int) -> ComparisonResults:
-    cr = ComparisonResults(correct_locations=0, correct_numbers=0, had_error=False)
-    for i in range(0, number_of_digits):
-        guessed_digit = guessed_number[i]
-        if not guessed_digit.isdigit():
-            cr.had_error = True
-            break
-        if correct_number[i] == guessed_digit:
-            cr.correct_locations += 1
-            continue
-        if guessed_digit in correct_number:
-            cr.correct_numbers += 1
-            continue
-    return cr
+class Compare:
+    @staticmethod
+    def compare_numbers(correct_number: str, guessed_number: str, number_of_digits: int) -> ComparisonResults:
+        cr = ComparisonResults(correct_locations=0, correct_numbers=0, had_error=False)
+        for i in range(0, number_of_digits):
+            guessed_digit = guessed_number[i]
+            if not guessed_digit.isdigit():
+                cr.had_error = True
+                break
+            if correct_number[i] == guessed_digit:
+                cr.correct_locations += 1
+                continue
+            if guessed_digit in correct_number:
+                cr.correct_numbers += 1
+                continue
+        return cr

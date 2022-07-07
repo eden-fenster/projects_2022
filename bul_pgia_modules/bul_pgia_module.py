@@ -7,8 +7,8 @@ Purpose: Bul_Pgia
 
 # --------------------------------------------------
 import argparse
-from generate_number import generate_number as generator
-from compare_numbers import compare_numbers as compare
+from generate_number import Generate as Generate
+from compare_numbers import Compare as Compare
 
 
 def get_args():
@@ -53,14 +53,14 @@ def main() -> None:
     duplicate_digits_allowed: bool = args.repeat_digits
     # Setup:
     # Generate a random number with K digits and optionally allowing for digits to be repeated.
-    number = generator(number_of_digits=number_of_digits, can_repeat_digits=duplicate_digits_allowed)
+    number = Generate.generate_number(number_of_digits=number_of_digits, can_repeat_digits=duplicate_digits_allowed)
     tries_so_far: int = 0
 
     while True:
         # The user is asked to input a guess of what the number is.
         guessed_number = input("Input your guess  \n")
         # Calculate how many digits match in place, how many match out of place, how many totally wrong.
-        comparison_results = compare(correct_number=number, guessed_number=guessed_number,
+        comparison_results = Compare.compare_numbers(correct_number=number, guessed_number=guessed_number,
                                                      number_of_digits=number_of_digits)
         if comparison_results.had_error:
             print("Had error, re enter")
@@ -84,9 +84,9 @@ def main() -> None:
 
 
 def test_compare_numbers():
-    cr = compare('1234', '123a', 4)
+    cr = Compare.compare_numbers('1234', '123a', 4)
     assert cr.had_error is True
-    cr = compare('22234', '43322', 5)
+    cr = Compare.compare_numbers('22234', '43322', 5)
     assert cr.correct_numbers == 5
 
 
