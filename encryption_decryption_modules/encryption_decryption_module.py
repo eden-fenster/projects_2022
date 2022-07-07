@@ -8,8 +8,8 @@ Purpose: encryption_decryption
 # --------------------------------------------------
 import argparse
 import os
-from create_dictionary import create_dictionary as create_dictionary
-from translate_text import translate_text as translate_text
+from create_dictionary import Dictionary as Dictionary
+from translate_text import Translate as Translate
 
 
 def get_args():
@@ -61,14 +61,14 @@ def main() -> None:
     encrypt: bool = args.encrypt
     outfile = args.outfile
 
-    dictionary: dict = create_dictionary(transformation_pattern=transformation_pattern, encrypt=encrypt)
+    dictionary: dict = Dictionary.create_dictionary(transformation_pattern=transformation_pattern, encrypt=encrypt)
 
     if outfile:
         out_fh = open(outfile, 'wt')
         out_fh.write(str(dictionary))
         out_fh.close()
 
-    translated_text: str = translate_text(text_to_translate=text, dictionary=dictionary)
+    translated_text: str = Translate.translate_text(text_to_translate=text, dictionary=dictionary)
     print(translated_text)
 
 
