@@ -7,8 +7,8 @@ Purpose: Bul_Pgia
 
 # --------------------------------------------------
 import argparse
-from generate_number import Generate as Generate
-from compare_numbers import Compare as Compare
+from methods.generate_number import Generate
+from methods.compare_numbers import Compare
 
 
 def get_args():

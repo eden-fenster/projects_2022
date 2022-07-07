@@ -11,8 +11,8 @@ import argparse
 # --------------------------------------------------
 from typing import List
 
-from add_snacks import Snacks as Snacks
-from choose_random_snack import Choose as Choose
+from methods.add_snacks import Snacks as Snacks
+from methods.choose_random_snack import Choose as Choose
 
 
 def get_args():

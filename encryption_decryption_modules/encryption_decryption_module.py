@@ -8,8 +8,8 @@ Purpose: encryption_decryption
 # --------------------------------------------------
 import argparse
 import os
-from create_dictionary import Dictionary as Dictionary
-from translate_text import Translate as Translate
+from methods.create_dictionary import Dictionary
+from methods.translate_text import Translate
 
 
 def get_args():
