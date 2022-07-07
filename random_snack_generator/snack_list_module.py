@@ -11,8 +11,8 @@ import argparse
 # --------------------------------------------------
 from typing import List
 
-from add_snacks import add_snacks as add_snacks
-from choose_random_snack import choose_random_snack as choose_random_snack
+from add_snacks import Snacks as Snacks
+from choose_random_snack import Choose as Choose
 
 
 def get_args():
@@ -33,8 +33,8 @@ def get_args():
 def main():
     args = get_args()
     snacks: str = args.snacks
-    snack_list: List[str] = add_snacks(snacks=snacks)
-    print(choose_random_snack(snack_list))
+    snack_list: List[str] = Snacks.add_snacks(snacks=snacks)
+    print(Choose.choose_random_snack(snack_list))
 
 
 if __name__ == '__main__':
