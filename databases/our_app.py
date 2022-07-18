@@ -1,24 +1,26 @@
-import database
+from database import Database
 
 # add a record to the database
 # database.add_one("Laura", "Smith", "laura@smith.com")
 
+database_to_add = Database('customer.db')
+
 # add a dictionary to the database
 user1 = {"first_name": 'James', "last_name": 'Elder', "email_address": 'james@elder.com'}
-# database.add_dict(user1)
+# database_to_add.add_dict(user1)
 
 # delete a record from the database (id needs to be a string, not an int)
-# database.delete_one('6')
+# database_to_add.delete_one('6')
 
 # add many records
 stuff = [
     ('Brenda', 'Smitherton', 'brenda@smitherton.com'),
     ('Joshua', 'Raintree', 'josh@raintreecom')
     ]
-# database.add_many(stuff)
+# database_to_add.add_many(stuff)
 
 # lookup email address record
-# database.email_lookup("john@codemy.com")
+# database_to_add.email_lookup("john@codemy.com")
 
 # see all records
-database.show_all()
+database_to_add.show_all()

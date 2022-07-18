@@ -14,65 +14,48 @@ import sqlite3
 from typing import List, Tuple
 
 
-def show_all():
-    conn = sqlite3.connect('customer.db')
-    c = conn.cursor()
-    c.execute("SELECT rowid, * FROM customers")
-    items = c.fetchall()
-    for item in items:
-        print(item)
+class Database:
+    def __init__(self, database_path: str):
+        self._connection = sqlite3.connect(database_path)
+        self._cursor = self._connection.cursor()
+        pass
 
-    conn.commit()
-    conn.close()
+    def show_all(self):
+        self._cursor.execute("SELECT rowid, * FROM customers")
+        items = self._cursor.fetchall()
+        for item in items:
+            print(item)
 
+    # Add a new record to the table
+    def add_one(self, first: str, last: str, email: str):
+        self._cursor.execute("INSERT INTO customers VALUES (?, ?, ?)", (first, last, email))
+        self._connection.commit()
+        self._connection.close()
 
-# Add a new record to the table
-def add_one(first: str, last: str, email: str):
-    conn = sqlite3.connect('customer.db')
-    c = conn.cursor()
-    c.execute("INSERT INTO customers VALUES (?, ?, ?)", (first, last, email))
-    conn.commit()
-    conn.close()
+    # Add a dictionary to the table
+    def add_dict(self, dictionary: dict):
+        self._cursor.execute("INSERT INTO customers VALUES (:first_name, :last_name, :email_address)", dictionary)
+        self._connection.commit()
+        self._connection.close()
 
+    # Delete a record from the table
+    def delete_one(self, id: str):
+        self._cursor.execute("DELETE from customers WHERE rowid = (?)", id)
+        self._connection.commit()
+        self._connection.close()
 
-# Add a dictionary to the table
-def add_dict(dictionary: dict):
-    conn = sqlite3.connect('customer.db')
-    c = conn.cursor()
-    c.execute("INSERT INTO customers VALUES (:first_name, :last_name, :email_address)", dictionary)
-    conn.commit()
-    conn.close()
+    # Add many records
+    def add_many(self, list: List[Tuple[str, str, str]]):
+        self._cursor.executemany("INSERT INTO customers VALUES (?, ?, ?)", list)
+        self._connection.commit()
+        self._connection.close()
 
-# Delete a record from the table
-def delete_one(id: str):
-    conn = sqlite3.connect('customer.db')
-    c = conn.cursor()
-    c.execute("DELETE from customers WHERE rowid = (?)", id)
-    conn.commit()
-    conn.close()
-
-
-# Add many records
-def add_many(list: List[Tuple[str, str, str]]):
-    conn = sqlite3.connect('customer.db')
-    c = conn.cursor()
-    c.executemany("INSERT INTO customers VALUES (?, ?, ?)", list)
-    conn.commit()
-    conn.close()
-
-
-# Lookup with WHERE
-def email_lookup(email: str):
-    conn = sqlite3.connect('customer.db')
-    c = conn.cursor()
-    c.execute("SELECT * from customers WHERE email_address = (?)", (email,))
-    items = c.fetchall()
-    for item in items:
-        print(item)
-
-    conn.commit()
-    conn.close()
-
+    # Lookup with WHERE
+    def email_lookup(self, email: str):
+        self._cursor.execute("SELECT * from customers WHERE email_address = (?)", (email,))
+        items = self._cursor.fetchall()
+        for item in items:
+            print(item)
 
 # Update records
 # c.execute("""UPDATE customers SET first_name = 'Mary'
@@ -85,11 +68,11 @@ def email_lookup(email: str):
 # conn.commit()
 
 # many_customers = [
-    # ('John', 'Elder', 'john@codemy.com'),
-    # ('Tim', 'Smith', 'tim@codemy.com'),
-    # ('Mary', "Brown", 'mary@codemy.com'),
-    # ('Wes', 'Brown', 'wes@brown.com'),
-    # ('Steph', 'Kuewa', 'steph@kuewa.com')
+# ('John', 'Elder', 'john@codemy.com'),
+# ('Tim', 'Smith', 'tim@codemy.com'),
+# ('Mary', "Brown", 'mary@codemy.com'),
+# ('Wes', 'Brown', 'wes@brown.com'),
+# ('Steph', 'Kuewa', 'steph@kuewa.com')
 
 # ]
 
@@ -142,8 +125,8 @@ def email_lookup(email: str):
 # print("NAME " + "\t\tEMAIL")
 # print("-----" + "\t\t--------")
 # for item in items:
-    # print(item[0] + " " + item[1] + '\t' + item[2])
-    # print(item)
+# print(item[0] + " " + item[1] + '\t' + item[2])
+# print(item)
 
 # One line
 # c.execute("CREATE TABLE customers (first_name DATATYPE, last_name, DATATYPE, email_address, DATATYPE)")
