@@ -35,6 +35,13 @@ def add_one(first: str, last: str, email: str):
     conn.close()
 
 
+def add_dict(dictionary: dict):
+    conn = sqlite3.connect('customer.db')
+    c = conn.cursor()
+    c.execute("INSERT INTO customers VALUES (:first_name, :last_name, :email_address)", dictionary)
+    conn.commit()
+    conn.close()
+
 # Delete a record from the table
 def delete_one(id: str):
     conn = sqlite3.connect('customer.db')
@@ -84,6 +91,7 @@ def email_lookup(email: str):
     # ('Steph', 'Kuewa', 'steph@kuewa.com')
 
 # ]
+
 
 # Create a table
 # c.execute("""CREATE TABLE customers (
