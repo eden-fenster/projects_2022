@@ -35,6 +35,7 @@ def add_one(first: str, last: str, email: str):
     conn.close()
 
 
+# Add a dictionary to the table
 def add_dict(dictionary: dict):
     conn = sqlite3.connect('customer.db')
     c = conn.cursor()

@@ -4,7 +4,7 @@ import database
 # database.add_one("Laura", "Smith", "laura@smith.com")
 
 # add a dictionary to the database
-# user1 = {"first_name": 'James', "last_name": 'Elder', "email_address": 'james@elder.com'}
+user1 = {"first_name": 'James', "last_name": 'Elder', "email_address": 'james@elder.com'}
 # database.add_dict(user1)
 
 # delete a record from the database (id needs to be a string, not an int)
@@ -18,7 +18,7 @@ stuff = [
 # database.add_many(stuff)
 
 # lookup email address record
-database.email_lookup("john@codemy.com")
+# database.email_lookup("john@codemy.com")
 
 # see all records
-# database.show_all()
+database.show_all()
