@@ -8,8 +8,11 @@ Purpose: encryption_decryption
 # --------------------------------------------------
 import argparse
 import os
-from string import ascii_lowercase
-import ast
+from methods.dictionary import Create
+from methods.text import Translate
+from encryption_decryption_record_database import EncryptionDecryptionDatabase
+
+database_to_add = EncryptionDecryptionDatabase('encryption_decryption_records.db')
 
 
 def get_args():
@@ -61,33 +64,20 @@ def main() -> None:
     encrypt: bool = args.encrypt
     outfile = args.outfile
 
-    dictionary: dict = create_dictionary(transformation_pattern=transformation_pattern, encrypt=encrypt)
+    dictionary: dict = Create.create_dictionary(transformation_pattern=transformation_pattern, encrypt=encrypt)
 
     if outfile:
         out_fh = open(outfile, 'wt')
         out_fh.write(str(dictionary))
         out_fh.close()
 
-    translated_text: str = translate_text(text_to_translate=text, dictionary=dictionary)
+    translated_text: str = Translate.translate_text(text_to_translate=text, dictionary=dictionary)
+    database_to_add.add_one(text, translated_text)
     print(translated_text)
 
 
-def create_dictionary(transformation_pattern: str, encrypt: bool) -> dict:
-    dictionary: dict = {}
-    if encrypt:
-        for i in range(0, len(transformation_pattern)):
-            dictionary.update({ascii_lowercase[i]: transformation_pattern[i]})
-    else:
-        for i in range(0, len(ascii_lowercase)):
-            dictionary.update({transformation_pattern[i]: ascii_lowercase[i]})
-    return dictionary
 
 
-def translate_text(text_to_translate: str, dictionary: dict) -> str:
-    new_text: str = ''
-    for letter in text_to_translate:
-        new_text += dictionary.get(letter, letter)
-    return new_text
 
 
 if __name__ == '__main__':
