@@ -1,4 +1,5 @@
 import sqlite3
+
 # Create a table
 # conn = sqlite3.connect('bul_pgia_records.db')
 
@@ -6,7 +7,8 @@ import sqlite3
 # c = conn.cursor()
 # c.execute("""CREATE TABLE bul_pgia_records (
 #   generated_number integer,
-#   guessed text
+#   guessed text,
+#   number_of_guesses integer
 #   )""")
 
 
@@ -24,7 +26,7 @@ class BulPgiaDatabase:
         for item in items:
             print(item)
 
-    def add_one(self, number: int, guessed: str):
-        self._cursor.execute("INSERT INTO customers VALUES (?, ?)", (number, guessed))
+    def add_one(self, number: int, guessed: str, guesses: int):
+        self._cursor.execute("INSERT INTO customers VALUES (?, ?, ?)", (number, guessed, guesses))
         self._connection.commit()
         self._connection.close()
