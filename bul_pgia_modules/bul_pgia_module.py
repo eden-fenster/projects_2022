@@ -11,7 +11,6 @@ from methods.generate_number import Generate
 from methods.compare_numbers import Compare
 import bul_pgia_record_database_sqlalchemy as database
 
-# database_to_add = database.BulPgiaDatabase('bul_pgia_records.db')
 
 
 def get_args():
@@ -73,6 +72,7 @@ def main() -> None:
         if comparison_results.correct_locations == number_of_digits:
             print('You won !')
             database.add_one(int(number), 'True', tries_so_far)
+            database.show_all()
             break
 
         # Otherwise print counters.
@@ -85,6 +85,7 @@ def main() -> None:
         if tries_so_far >= number_of_tries:
             print(f'You lose, loser.\nthe number was {number}')
             database.add_one(int(number), 'False', tries_so_far)
+            database.show_all()
             break
 
 

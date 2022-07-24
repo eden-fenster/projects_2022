@@ -2,9 +2,8 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('sqlite:///:bul_pgia_records.db:', echo=False)
+engine = create_engine('sqlite:///bul_pgia_records.db', echo=False)
 Base = declarative_base()
-Base.metadata.create_all(engine)
 
 
 class BulPgiaDatabase(Base):
@@ -20,6 +19,9 @@ class BulPgiaDatabase(Base):
             self.generated_number, self.guessed, self.number_of_guesses)
 
 
+Base.metadata.create_all(engine)
+
+
 def add_one(generated_number: int, guessed: str, number_of_guesses: int):
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -33,6 +35,6 @@ def show_all():
     Session = sessionmaker(bind=engine)
     session = Session()
     Query = session.query(BulPgiaDatabase).order_by(BulPgiaDatabase.id)
-    name_list: list = Query.all()
-    for name in name_list:
-        print(name)
+    record_list = Query.all()
+    for record in record_list:
+        print(record)

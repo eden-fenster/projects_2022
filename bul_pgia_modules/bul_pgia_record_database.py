@@ -5,6 +5,8 @@ import sqlite3
 
 # Create a cursor
 # c = conn.cursor()
+# c.execute("DROP TABLE bul_pgia_records")
+# conn.commit()
 # c.execute("""CREATE TABLE bul_pgia_records (
 #   generated_number integer,
 #   guessed text,
