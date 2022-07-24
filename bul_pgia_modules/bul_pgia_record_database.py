@@ -11,6 +11,7 @@ import sqlite3
 #   number_of_guesses integer
 #   )""")
 
+from dataclasses import dataclass
 
 # Add a new record to the table
 class BulPgiaDatabase:

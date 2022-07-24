@@ -9,9 +9,9 @@ Purpose: Bul_Pgia
 import argparse
 from methods.generate_number import Generate
 from methods.compare_numbers import Compare
-import bul_pgia_record_database as database
+import bul_pgia_record_database_sqlalchemy as database
 
-database_to_add = database.BulPgiaDatabase('bul_pgia_records.db')
+# database_to_add = database.BulPgiaDatabase('bul_pgia_records.db')
 
 
 def get_args():
@@ -72,7 +72,7 @@ def main() -> None:
         # if all digits match – you won.
         if comparison_results.correct_locations == number_of_digits:
             print('You won !')
-            database_to_add.add_one(int(number), 'True', tries_so_far)
+            database.add_one(int(number), 'True', tries_so_far)
             break
 
         # Otherwise print counters.
@@ -84,7 +84,7 @@ def main() -> None:
         # If you didn’t guess after N  (parameter) times, you lose, and we exit the program.
         if tries_so_far >= number_of_tries:
             print(f'You lose, loser.\nthe number was {number}')
-            database_to_add.add_one(int(number), 'False', tries_so_far)
+            database.add_one(int(number), 'False', tries_so_far)
             break
 
 
