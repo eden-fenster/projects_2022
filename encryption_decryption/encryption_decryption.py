@@ -10,7 +10,9 @@ import argparse
 import os
 from methods.dictionary import Create
 from methods.text import Translate
-import encryption_decryption_record_database_sqlalchemy as database
+from encryption_decryption_record_database_sqlalchemy import EncryptionDecryptionDatabase as Database
+
+db = Database()
 
 
 def get_args():
@@ -70,8 +72,8 @@ def main() -> None:
         out_fh.close()
 
     translated_text: str = Translate.translate_text(text_to_translate=text, dictionary=dictionary)
-    database.add_one(text, translated_text)
-    database.show_all()
+    db.add_one(text, translated_text)
+    db.show_all()
     print(translated_text)
 
 

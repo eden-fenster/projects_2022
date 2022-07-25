@@ -2,11 +2,10 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('sqlite:///encryption_decryption_records.db', echo=False)
 Base = declarative_base()
 
 
-class EncryptionDecryptionDatabase(Base):
+class EncryptionDecryptionDatabaseRecord(Base):
     __tablename__ = 'encryption_decryption_records'
 
     id = Column(Integer, primary_key=True)
@@ -18,22 +17,21 @@ class EncryptionDecryptionDatabase(Base):
             self.original_text, self.translated_text)
 
 
-Base.metadata.create_all(engine)
+class EncryptionDecryptionDatabase:
+    def __init__(self, data_base_file_name: str = 'sqlite:///encryption_decryption_records.db'):
+        self._engine = create_engine(data_base_file_name, echo=False)
+        Base.metadata.create_all(self._engine)
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
 
+    def add_one(self, original_text: str, translated_text: str):
+        record_to_add = EncryptionDecryptionDatabaseRecord(original_text=original_text,
+                                                           translated_text=translated_text)
+        self._session.add(record_to_add)
+        self._session.commit()
 
-def add_one(original_text: str, translated_text: str):
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    record_to_add = EncryptionDecryptionDatabase(original_text=original_text,
-                                                 translated_text=translated_text)
-    session.add(record_to_add)
-    session.commit()
-
-
-def show_all():
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    Query = session.query(EncryptionDecryptionDatabase).order_by(EncryptionDecryptionDatabase.id)
-    record_list = Query.all()
-    for record in record_list:
-        print(record)
+    def show_all(self):
+        Query = self._session.query(EncryptionDecryptionDatabaseRecord).order_by(EncryptionDecryptionDatabaseRecord.id)
+        record_list = Query.all()
+        for record in record_list:
+            print(record)
