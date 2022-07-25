@@ -2,7 +2,6 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('sqlite:///bul_pgia_records.db', echo=False)
 Base = declarative_base()
 
 
