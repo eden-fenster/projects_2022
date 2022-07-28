@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from sqlalchemy import create_engine, Column, Integer, String, func, delete
+from sqlalchemy import create_engine, Column, Integer, String, func
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -36,21 +36,40 @@ class FoodDatabase:
         self._session.add_all(list_of_food)
         self._session.commit()
 
-    def delete_one(self, name_of_food_to_delete: str):
-        food_to_delete = self._session.query(FoodDatabaseRecord.food_name == name_of_food_to_delete)
-        food = food_to_delete.all()
-        self._session.delete(food)
+    def delete_one(self, delete: str):
+        food_to_delete = self._session.query(FoodDatabaseRecord).filter(FoodDatabaseRecord.food_name == delete).first()
+        self._session.delete(food_to_delete)
         self._session.commit()
 
-    def food_lookup(self, is_in_house: str):
-        foods_to_query = self._session.query(FoodDatabaseRecord.is_in_house == is_in_house)
+    def delete_many(self, delete: str):
+        food_to_delete = self._session.query(FoodDatabaseRecord).filter(FoodDatabaseRecord.food_name == delete).all()
+        foods = food_to_delete
+        for food in foods:
+            self._session.delete(food)
+            self._session.commit()
+
+    def food_lookup_by_availability(self, is_in_house: str):
+        foods_to_query = self._session.query(FoodDatabaseRecord).filter(FoodDatabaseRecord.is_in_house == is_in_house)
+        foods = foods_to_query.all()
+        for food in foods:
+            print(food)
+
+    def food_lookup_by_name(self, name: str):
+        foods_to_query = self._session.query(FoodDatabaseRecord).filter(FoodDatabaseRecord.food_name.like(f'%{name}%'))
         foods = foods_to_query.all()
         for food in foods:
             print(food)
 
     def choose_random(self):
         Query = self._session.query(FoodDatabaseRecord).order_by(func.random()).first()
-        print(Query)
+        random_snack = Query
+        print(random_snack)
+
+    def change_availability(self, food_to_change: str, the_opposite: str):
+        snack_to_change = \
+            self._session.query(FoodDatabaseRecord).filter(FoodDatabaseRecord.food_name == food_to_change).first()
+        snack_to_change.is_in_house = the_opposite
+        self._session.commit()
 
     def show_all(self):
         Query = self._session.query(FoodDatabaseRecord).order_by(FoodDatabaseRecord.id)
