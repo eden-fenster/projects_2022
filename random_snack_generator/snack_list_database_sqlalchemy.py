@@ -49,21 +49,25 @@ class FoodDatabase:
             self._session.commit()
 
     def food_lookup_by_availability(self, is_in_house: str):
-        foods_to_query = self._session.query(FoodDatabaseRecord).filter(FoodDatabaseRecord.is_in_house == is_in_house)
-        foods = foods_to_query.all()
-        for food in foods:
-            print(food)
+        foods_to_query = \
+            self._session.query(FoodDatabaseRecord).filter(FoodDatabaseRecord.is_in_house == is_in_house).all()
+        foods = []
+        for food in foods_to_query:
+            foods.append(food)
+        return foods
 
     def food_lookup_by_name(self, name: str):
-        foods_to_query = self._session.query(FoodDatabaseRecord).filter(FoodDatabaseRecord.food_name.like(f'%{name}%'))
-        foods = foods_to_query.all()
-        for food in foods:
-            print(food)
+        foods_to_query = \
+            self._session.query(FoodDatabaseRecord).filter(FoodDatabaseRecord.food_name.like(f'%{name}%')).all()
+        foods = []
+        for food in foods_to_query:
+            foods.append(food)
+        return foods
 
     def choose_random(self):
         Query = self._session.query(FoodDatabaseRecord).order_by(func.random()).first()
         random_snack = Query
-        print(random_snack)
+        return random_snack
 
     def change_availability(self, food_to_change: str, the_opposite: str):
         snack_to_change = \
@@ -72,7 +76,8 @@ class FoodDatabase:
         self._session.commit()
 
     def show_all(self):
-        Query = self._session.query(FoodDatabaseRecord).order_by(FoodDatabaseRecord.id)
-        record_list = Query.all()
-        for record in record_list:
-            print(record)
+        records = self._session.query(FoodDatabaseRecord).order_by(FoodDatabaseRecord.id).all()
+        record_list = []
+        for record in records:
+            record_list.append(record)
+        return record_list
