@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import argparse
 from typing import Tuple, List
 
 from snack_list_database_sqlalchemy import FoodDatabase
@@ -7,86 +6,55 @@ from snack_list_database_sqlalchemy import FoodDatabase
 food_list = FoodDatabase()
 
 
-def get_args():
-    """Get command-line arguments"""
-
-    parser = argparse.ArgumentParser(
-        description='Snack Generator',
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-
-    parser.add_argument('-a',
-                        '--add_snack',
-                        help='Add a snack',
-                        default=True,
-                        action='store_true')
-
-    parser.add_argument('-d',
-                        '--delete_snack',
-                        help='Delete a snack',
-                        default=False,
-                        action='store_true')
-
-    parser.add_argument('-l',
-                        '--lookup_snacks',
-                        help='Search for snacks based on availability',
-                        default=False,
-                        action='store_true')
-
-    parser.add_argument('-s',
-                        '--show_snacks',
-                        help='Return snacks',
-                        default=True,
-                        action='store_true')
-
-    parser.add_argument('-c',
-                        '--change_availability',
-                        help='change the availability status',
-                        default=False,
-                        action='store_true')
-
-    return parser.parse_args()
-
-
 def main() -> None:
-    args = get_args()
-    add_snack: bool = args.add_snack
-    delete_snack: bool = args.delete_snack
-    lookup_snacks: bool = args.lookup_snacks
-    print_snacks: bool = args.show_snacks
-    change_availability: bool = args.change_availability
 
-    if add_snack:
+    print('Good day, what do you want to do today ?')
+    add_or_not: str = input('Do you want to add a snack ? type Yes for yes and No for no  \n')
+    delete_or_not: str = input('Do you want to delete a snack ? type Yes for yes and No for no  \n')
+    lookup_or_not: str = input('Do you want to look up a snack ? type Yes for yes and No for no  \n')
+    print_or_not: str = input('Do you want to return a snack ? type Yes for yes and No for no  \n')
+    change_or_not: str = \
+        input('Do you want to change the availability of a snack ? type Yes for yes and No for no  \n')
+    if add_or_not == 'Yes':
         add_a_snack()
 
-    if delete_snack:
+    if delete_or_not == 'Yes':
         delete_a_snack()
 
-    if lookup_snacks:
+    if lookup_or_not == 'Yes':
         lookup_a_snack()
 
-    if print_snacks:
+    if print_or_not == 'Yes':
         print_a_snack()
 
-    if change_availability:
+    if change_or_not == 'Yes':
         change_the_availability()
 
 
 def change_the_availability():
-    num: int = int(input('How many snack do you want to change ? \n'))
+    num: int = int(input('How many snacks do you want to change ? \n'))
     while num < 1:
-        num: int = int(input('Not a vaild number, try again ! \n'))
+        num: int = int(input('Not a valid number, try again ! \n'))
     num_to_change: int = int(num)
     if num_to_change == 1:
         snack_name: str = input('Input snack name \n')
+        # Prints the current status of the food for reference.
+        print(food_list.food_lookup_by_name(snack_name))
         snack_availability: str = input('Type True for yes and False for no \n')
         food_list.change_availability(snack_name, snack_availability)
+        # Prints the current status of the food after we changed it.
+        print(food_list.food_lookup_by_name(snack_name))
     if num_to_change > 1:
         i: int = 0
 
         while i < num_to_change:
             snack_name: str = input('Input snack name \n')
+            # Prints the current status of the food for reference.
+            print(food_list.food_lookup_by_name(snack_name))
             snack_availability: str = input('Type True for yes and False for no \n')
             food_list.change_availability(snack_name, snack_availability)
+            # Prints the current status of the food after we changed it.
+            print(food_list.food_lookup_by_name(snack_name))
             i += 1
 
 
@@ -116,12 +84,16 @@ def delete_a_snack():
     one_or_all: str = input('Do you want to delete one or all instances ? type One for one and All for all \n')
     if one_or_all == 'One':
         food_list.delete_one(food_to_delete)
+        # Prints the current status of the database after we deleted the food.
+        print(food_list.show_all())
     if one_or_all == 'All':
         food_list.delete_many(food_to_delete)
+        # Prints the current status of the database after we deleted the food.
+        print(food_list.show_all())
 
 
 def add_a_snack():
-    num: int = int(input('How many snack do you want to add ? \n'))
+    num: int = int(input('How many snacks do you want to add ? \n'))
     while num < 1:
         num: int = int(input('Not a vaild number, try again ! \n'))
     num_to_add: int = int(num)
@@ -129,6 +101,8 @@ def add_a_snack():
         snack_name: str = input('Input snack name \n')
         snack_availability: str = input('Type True for yes and False for no \n')
         food_list.add_one(snack_name, snack_availability)
+        # Prints the current status of the food after we added the snack.
+        print(food_list.food_lookup_by_name(snack_name))
     if num_to_add > 1:
         snacks_to_add: List[Tuple[str, str]] = []
 
@@ -138,6 +112,7 @@ def add_a_snack():
             snack: Tuple[str, str] = (snack_name, snack_availability)
             snacks_to_add.append(snack)
             food_list.add_many(snacks_to_add)
+
 
 
 if __name__ == '__main__':
