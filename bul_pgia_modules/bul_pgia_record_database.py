@@ -15,6 +15,7 @@ import sqlite3
 
 from dataclasses import dataclass
 
+
 # Add a new record to the table
 class BulPgiaDatabase:
 
