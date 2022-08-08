@@ -10,7 +10,7 @@ import argparse
 import os
 from methods.dictionary import Create
 from methods.text import Translate
-from encryption_decryption_record_database_sqlalchemy import EncryptionDecryptionDatabase as Database
+from encryption_decryption_record_database_odbc import EncryptionDecryptionDatabase as Database
 
 db = Database()
 
