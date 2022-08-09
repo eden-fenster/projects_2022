@@ -19,4 +19,3 @@ class EncryptionDecryptionDatabase:
         self._cursor.execute("insert into encryption_decryption_records (original_text, translated_text) values (?, ?)"
                              , original_text, translated_text)
         self._connection.commit()
-        self._connection.close()
