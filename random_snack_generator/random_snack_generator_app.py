@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from typing import Tuple, List
 
-from snack_list_database_sqlalchemy import FoodDatabase
+from snack_list_database_odbc import FoodDatabase
 
 food_list = FoodDatabase()
 
@@ -84,16 +84,8 @@ def lookup_a_snack():
 
 def delete_a_snack():
     food_to_delete: str = input('What food do you want to delete ? \n')
-    one_or_all: str = input('Do you want to delete one or all instances ? type One for one and All for all \n')
-    if one_or_all == 'One':
-        food_list.delete_one(food_to_delete)
-        # Prints the current status of the database after we deleted the food.
-        print(food_list.show_all())
-        return
-    if one_or_all == 'All':
-        food_list.delete_many(food_to_delete)
-        # Prints the current status of the database after we deleted the food.
-        print(food_list.show_all())
+    food_list.delete(food_to_delete)
+    print(food_list.show_all())
 
 
 def add_a_snack():
