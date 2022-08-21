@@ -77,29 +77,29 @@ class Date:
                        - (31 - date.get_day)
 
         if date.get_month == 1:
-            return (31 + date.get_year * 365) - (31 - date.get_day)
+            return (31 + (date.get_year * 365)) - (31 - date.get_day)
         if date.get_month == 2:
-            return (28 + 31 + date.get_year * 365) - (28 - date.get_day)
+            return (28 + 31 + (date.get_year * 365)) - (28 - date.get_day)
         if date.get_month == 3:
-            return (31 + 28 + 31 + date.get_year * 365) - (31 - date.get_day)
+            return (31 + 28 + 31 + (date.get_year * 365)) - (31 - date.get_day)
         if date.get_month == 4:
-            return (30 + 31 + 28 + 31 + date.get_year * 365) - (30 - date.get_day)
+            return (30 + 31 + 28 + 31 + (date.get_year * 365)) - (30 - date.get_day)
         if date.get_month == 5:
-            return (31 + 30 + 31 + 28 + 31 + date.get_year * 365) - (31 - date.get_day)
+            return (31 + 30 + 31 + 28 + 31 + (date.get_year * 365)) - (31 - date.get_day)
         if date.get_month == 6:
-            return (30 + 31 + 30 + 31 + 28 + 31 + date.get_year * 365) - (30 - date.get_day)
+            return (30 + 31 + 30 + 31 + 28 + 31 + (date.get_year * 365)) - (30 - date.get_day)
         if date.get_month == 7:
-            return (31 + 30 + 31 + 30 + 31 + 28 + 31 + date.get_year * 365) - (31 - date.get_day)
+            return (31 + 30 + 31 + 30 + 31 + 28 + 31 + (date.get_year * 365)) - (31 - date.get_day)
         if date.get_month == 8:
-            return (31 + 31 + 30 + 31 + 30 + 31 + 28 + 31 + date.get_year * 365) - (31 - date.get_day)
+            return (31 + 31 + 30 + 31 + 30 + 31 + 28 + 31 + (date.get_year * 365)) - (31 - date.get_day)
         if date.get_month == 9:
-            return (30 + 31 + 31 + 30 + 31 + 30 + 31 + 28 + 31 + date.get_year * 365) - (30 - date.get_day)
+            return (30 + 31 + 31 + 30 + 31 + 30 + 31 + 28 + 31 + (date.get_year * 365)) - (30 - date.get_day)
         if date.get_month == 10:
-            return (31 + 30 + 31 + 31 + 30 + 31 + 30 + 31 + 28 + 31 + date.get_year * 365) - (31 - date.get_day)
+            return (31 + 30 + 31 + 31 + 30 + 31 + 30 + 31 + 28 + 31 + (date.get_year * 365)) - (31 - date.get_day)
         if date.get_month == 11:
-            return (30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + 31 + 28 + 31 + date.get_year * 365) - (30 - date.get_day)
+            return (30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + 31 + 28 + 31 + (date.get_year * 365)) - (30 - date.get_day)
         if date.get_month == 12:
-            return (31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + 31 + 28 + 31 + date.get_year * 365) \
+            return (31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + 31 + 28 + 31 + (date.get_year * 365)) \
                    - (31 - date.get_day)
 
     def difference(self, instance) -> int:
@@ -166,12 +166,26 @@ class Group(Student):
         return sorted_list
 
     def how_many_months(self) -> int:
-        counter: int = 0
-        list_of_months: List[int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        for month in list_of_months:
-            for student in self._stud:
-                if student.get_birthday.get_month == month:
-                    break
+        counter: int = 12
+        list_of_months: List[int] = []
+        for student in self._stud:
+            if student.get_birthday.get_month in list_of_months:
+                continue
+            list_of_months.append(student.get_birthday.get_month)
+        for i in range(1, 13):
+            if i in list_of_months:
+                continue
+            counter += 1
+        return counter
+
+    def bigger_than(self, num: int) -> bool:
+        for j in range(0, len(self._stud) - 1):
+            for i in range(1, len(self._stud)):
+                if not self._stud[j].difference(self._stud[i]) >= num:
+                    continue
+                return True
+        return False
+
 # d = Date(1, 2, 3)
 # c = Date.copy(d)
 # print(d, c)
