@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import sqlite3
+from typing import List
 
 import pyodbc
 
 
-class RockMusicDatabase:
+class PopMusicDatabase:
 
     def __init__(self, database_path: str = 'pop.db'):
         self._connection = pyodbc.connect("Driver=SQLite3;Database="f"{database_path}")
@@ -17,40 +18,30 @@ class RockMusicDatabase:
         for item in items:
             print(item)
 
-    def add_one(self, food: str, is_in_house: str):
-        self._cursor.execute("insert into food (food_name, is_in_house) values (?, ?)", food, is_in_house)
+    def show_all(self):
+        self._cursor.execute("select artist from pop")
+        items = self._cursor.fetchall()
+        for item in items:
+            print(item)
+
+    def add_one_artist(self, artist: str):
+        self._cursor.execute("insert into pop (artist_name) values (?)", artist)
         self._connection.commit()
 
-    def add_many(self, list: List[Tuple[str, int]]):
-        self._cursor.executemany("insert into food values (?, ?)", list)
+    def add_many_artists(self, list: List[str]):
+        self._cursor.executemany("insert into pop values (?)", list)
         self._connection.commit()
 
-    def delete(self, food: str):
-        self._cursor.execute("delete from food where food_name = ?", food)
+    def delete_artist(self, artist: str):
+        self._cursor.execute("delete from pop where artist_name = ?", artist)
         self._connection.commit()
 
-    def food_lookup_by_name(self, food: str):
-        self._cursor.execute("select food_name, is_in_house from food where food_name = ?", food)
+    def artist_lookup_by_name(self, artist: str):
+        self._cursor.execute("select artist_name from pop where artist_name = ?", artist)
         for row in self._cursor:
-            print(row.food_name, row.is_in_house)
+            print(row.artist_name)
 
-    def food_lookup_by_availability(self, is_in_house: str):
-        self._cursor.execute("select food_name, is_in_house from food where is_in_house = ?", is_in_house)
-        for row in self._cursor:
-            print(row.food_name, row.is_in_house)
-
-    def choose_random(self):
-        self._cursor.execute("select food_name, is_in_house from food order by random()")
+    def choose_random_artist(self):
+        self._cursor.execute("select artist_name from pop order by random()")
         item = self._cursor.fetchone()
-        print(item.food_name, item.is_in_house)
-
-
-c.execute("""CREATE TABLE pop (
-artist_name text
-)""")
-
-# Commit out command
-conn.commit()
-
-# Close our connection
-conn.close()
+        print(item.artist_name)
