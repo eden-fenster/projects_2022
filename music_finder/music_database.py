@@ -4,8 +4,9 @@ import pyodbc
 
 
 class MusicDatabase:
-    def __init__(self, database_path: str , table_name: str):
-        self._connection = pyodbc.connect("Driver=SQLite3;Database="f"{database_path}")
+    def __init__(self, database_path: str, table_name: str):
+        connection_string = "Driver=SQLite3;Database="f"{database_path}"
+        self._connection = pyodbc.connect(connection_string)
         self._cursor = self._connection.cursor()
         self.table_name = table_name
         pass
