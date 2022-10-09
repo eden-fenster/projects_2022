@@ -3,22 +3,21 @@ from typing import Tuple, List
 
 from music_finder_database import MusicFinderDatabase
 from music_database import MusicDatabase
-from database_template import create_database
 
 genre_list = MusicFinderDatabase()
-single_genre_database = MusicDatabase()
+# single_genre_database = MusicDatabase()
 
 
 def main() -> None:
     print('Good day, what do you want to do today ?')
     add_genre: str = input('Do you want to add a genre ? type Yes for yes and No for no  \n')
-    add_artist: str = input('Do you want to add an artist ? type Yes for yes and No for no  \n')
+    # add_artist: str = input('Do you want to add an artist ? type Yes for yes and No for no  \n')
     lookup_genre: str = input('Do you want to look up a genre ? type Yes for yes and No for no  \n')
-    lookup_artist: str = input('Do you want to look up an artist ? type Yes for yes and No for no  \n')
+    # lookup_artist: str = input('Do you want to look up an artist ? type Yes for yes and No for no  \n')
     delete_genre: str = input('Do you want to delete a genre ? type Yes for yes and No for no  \n')
-    delete_artist: str = input('Do you want to delete an artist ? type Yes for yes and No for no  \n')
+    # delete_artist: str = input('Do you want to delete an artist ? type Yes for yes and No for no  \n')
     print_genre_or_not: str = input('Do you want to return a genre ? type Yes for yes and No for no  \n')
-    print_artist_or_not: str = input('Do you want to return an artist ? type Yes for yes and No for no  \n')
+    # print_artist_or_not: str = input('Do you want to return an artist ? type Yes for yes and No for no  \n')
 
     if add_genre == 'Yes':
         add_a_genre()
