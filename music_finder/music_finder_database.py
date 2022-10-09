@@ -30,7 +30,7 @@ class MusicFinderDatabase:
         self._cursor.execute("delete from genre where genre = ?", genre)
         self._connection.commit()
 
-    def genre_lookup_by_name(self, genre: str):
+    def genre_lookup(self, genre: str):
         self._cursor.execute("select genre, database_url from genre where genre = ?", genre)
         for row in self._cursor:
             print(row.genre, row.database_url)
@@ -39,4 +39,5 @@ class MusicFinderDatabase:
         self._cursor.execute("select genre, database_url from genre order by random()")
         item = self._cursor.fetchone()
         print(item.genre, item.database_url)
+
 

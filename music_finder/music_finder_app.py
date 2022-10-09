@@ -9,79 +9,45 @@ single_genre_database = MusicDatabase()
 
 
 def main() -> None:
-
     print('Good day, what do you want to do today ?')
-    add_or_not: str = input('Do you want to add a snack ? type Yes for yes and No for no  \n')
-    delete_or_not: str = input('Do you want to delete a snack ? type Yes for yes and No for no  \n')
-    lookup_or_not: str = input('Do you want to look up a snack ? type Yes for yes and No for no  \n')
-    print_or_not: str = input('Do you want to return a snack ? type Yes for yes and No for no  \n')
-    change_or_not: str = \
-        input('Do you want to change the availability of a snack ? type Yes for yes and No for no  \n')
+    add_genre: str = input('Do you want to add a genre ? type Yes for yes and No for no  \n')
+    add_artist: str = input('Do you want to add an artist ? type Yes for yes and No for no  \n')
+    lookup_genre: str = input('Do you want to look up a genre ? type Yes for yes and No for no  \n')
+    lookup_artist: str = input('Do you want to look up an artist ? type Yes for yes and No for no  \n')
+    delete_genre: str = input('Do you want to delete a genre ? type Yes for yes and No for no  \n')
+    delete_artist: str = input('Do you want to delete an artist ? type Yes for yes and No for no  \n')
+    print_genre_or_not: str = input('Do you want to return a genre ? type Yes for yes and No for no  \n')
+    print_artist_or_not: str = input('Do you want to return an artist ? type Yes for yes and No for no  \n')
+
     if add_or_not == 'Yes':
         add_a_snack()
 
     if delete_or_not == 'Yes':
         delete_a_snack()
 
-    if lookup_or_not == 'Yes':
-        lookup_a_snack()
+    if lookup_genre == 'Yes':
+        lookup_a_genre()
 
-    if print_or_not == 'Yes':
-        print_a_snack()
+    if print_genre_or_not == 'Yes':
+        print_genre()
 
     if change_or_not == 'Yes':
         change_the_availability()
 
 
-def change_the_availability():
-    num: int = int(input('How many snacks do you want to change ? \n'))
-    while num < 1:
-        num: int = int(input('Not a valid number, try again ! \n'))
-
-    num_to_change: int = int(num)
-    if num_to_change == 1:
-        snack_name: str = input('Input snack name \n')
-        # Prints the current status of the food for reference.
-        print(food_list.food_lookup_by_name(snack_name))
-        snack_availability: str = input('Type True for yes and False for no \n')
-        food_list.change_availability(snack_name, snack_availability)
-        # Prints the current status of the food after we changed it.
-        print(food_list.food_lookup_by_name(snack_name))
-        return
-
-    i: int = 0
-    while i < num_to_change:
-        snack_name: str = input('Input snack name \n')
-        # Prints the current status of the food for reference.
-        print(food_list.food_lookup_by_name(snack_name))
-        snack_availability: str = input('Type True for yes and False for no \n')
-        food_list.change_availability(snack_name, snack_availability)
-        # Prints the current status of the food after we changed it.
-        print(food_list.food_lookup_by_name(snack_name))
-        i += 1
-
-
-def print_a_snack():
+def print_genre():
     random_or_all: str = \
-        input('Do you want a random snack or all snacks printed ? type Random for random and All for all \n')
+        input('Do you want a random genre or all genres printed ? type Random for random and All for all \n')
     if random_or_all == 'Random':
-        print(food_list.choose_random())
+        print(music_list.choose_random_genre())
         return
     if random_or_all == 'All':
-        print(food_list.show_all())
+        print(music_list.show_all())
 
 
-def lookup_a_snack():
-    name_or_availability: str = \
-        input('Do you want to look up by name or by availability ? '
-              'type Name for name and Availability for availability \n')
-    if name_or_availability == 'Name':
-        name: str = input('Type name of snack \n')
-        print(food_list.food_lookup_by_name(name))
-        return
-    if name_or_availability == 'Availability':
-        condition: str = input('Type True for available and False for not available \n')
-        print(food_list.food_lookup_by_availability(condition))
+def lookup_a_genre():
+    name: str = input('Type name of genre \n')
+    print(music_list.genre_lookup(name))
 
 
 def delete_a_snack():
