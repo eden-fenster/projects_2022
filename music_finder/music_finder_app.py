@@ -3,6 +3,7 @@ from typing import Tuple, List
 
 from music_finder_database import MusicFinderDatabase
 from music_database import MusicDatabase
+from database_template import create_database
 
 genre_list = MusicFinderDatabase()
 single_genre_database = MusicDatabase()
