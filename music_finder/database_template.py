@@ -1,21 +1,12 @@
 #!/usr/bin/env python3
-# conn = sqlite3.connect('*insert genre here*.db')
-
-# Create a cursor
-# c = conn.cursor()
+import sqlite3
 
 
-# Create a table
-# c.execute("""CREATE TABLE customers (
-# first_name text,
-# last_name text,
-# email_address text
-# )""")
-
-
-# Commit out command
-# conn.commit()
-
-# Close our connection
-# conn.close()
-
+def create_database(name: str):
+    conn = sqlite3.connect(f'{name}.db')
+    c = conn.cursor()
+    c.execute("""CREATE TABLE f'{name}' (
+    artist_name text
+    )""")
+    conn.commit()
+    conn.close()
