@@ -2,15 +2,14 @@
 import sqlite3
 
 
-def create_database():
-    conn = sqlite3.connect('genre.db')
+def create_database(name: str):
+    conn = sqlite3.connect(f'{name}.db')
     c = conn.cursor()
-    c.execute("""CREATE TABLE genre (
-    genre text,
-    database_url text
-    )""")
+    command = f"""CREATE TABLE {name} (
+    artist_name text
+    )"""
+    print(command)
+    c.execute(command)
     conn.commit()
     conn.close()
-
-
-create_database()
+create_database(name="test001")
