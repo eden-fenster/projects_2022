@@ -8,8 +8,6 @@ def create_database(name: str):
     command = f"""CREATE TABLE {name} (
     artist_name text
     )"""
-    print(command)
     c.execute(command)
     conn.commit()
     conn.close()
-create_database(name="test001")

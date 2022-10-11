@@ -3,12 +3,14 @@ from typing import Tuple, List
 
 from music_finder_database import MusicFinderDatabase
 from music_database import MusicDatabase
+from database_template import create_database
 
 genre_list = MusicFinderDatabase()
 # single_genre_database = MusicDatabase()
 
 
 def main() -> None:
+
     print('Good day, what do you want to do today ?')
     add_genre: str = input('Do you want to add a genre ? type Yes for yes and No for no  \n')
     # add_artist: str = input('Do you want to add an artist ? type Yes for yes and No for no  \n')
@@ -60,8 +62,13 @@ def add_a_genre():
 
     num_to_add: int = int(num)
     if num_to_add == 1:
+        exist: bool = bool(input('Does the database exist ? \n'))
+        if not exist:
+            genre_name: str = input('Input genre name \n')
+            create_database(name=genre_name)
         genre_name: str = input('Input genre name \n')
         genre_url: str = input('Input URL of database \n')
+
         genre_list.add_genre(genre_name, genre_url)
         # Prints the current status of the food after we added the snack.
         print(genre_list.genre_lookup(genre_name))
