@@ -6,41 +6,78 @@ from music_database import MusicDatabase
 from database_template import create_database
 
 genre_list = MusicFinderDatabase()
-rock_database = MusicDatabase()
-pop_database = MusicDatabase()
+rock_database = MusicDatabase(database_path='rock.db', table_name='rock')
+pop_database = MusicDatabase(database_path='pop.db', table_name='pop')
 
 
 def main() -> None:
-    print('Good day, what do you want to do today ?')
-    add_genre: str = input('Do you want to add a genre ? type Yes for yes and No for no  \n')
-    add_artist: str = input('Do you want to add an artist ? type Yes for yes and No for no  \n')
-    lookup_genre: str = input('Do you want to look up a genre ? type Yes for yes and No for no  \n')
-    lookup_artist: str = input('Do you want to look up an artist ? type Yes for yes and No for no  \n')
-    delete_genre: str = input('Do you want to delete a genre ? type Yes for yes and No for no  \n')
-    # delete_artist: str = input('Do you want to delete an artist ? type Yes for yes and No for no  \n')
-    print_genre_or_not: str = input('Do you want to return a genre ? type Yes for yes and No for no  \n')
-    # print_artist_or_not: str = input('Do you want to return an artist ? type Yes for yes and No for no  \n')
+    print('Good day, what do you want to do today ? \n')
+    genre_or_artist: str = \
+        input('Do you want to work with genres or with artists ? '
+              'type Genre for genres, Artist for artists and Both or both\n')
+    if genre_or_artist == 'Both':
+        add_genre: str = input('Do you want to add a genre ? type Yes for yes and No for no  \n')
+        lookup_genre: str = input('Do you want to look up a genre ? type Yes for yes and No for no  \n')
+        delete_genre: str = input('Do you want to delete a genre ? type Yes for yes and No for no  \n')
+        print_genre_or_not: str = input('Do you want to return a genre ? type Yes for yes and No for no  \n')
+        add_artist: str = input('Do you want to add an artist ? type Yes for yes and No for no  \n')
+        lookup_artist: str = input('Do you want to look up an artist ? type Yes for yes and No for no  \n')
+        delete_artist: str = input('Do you want to delete an artist ? type Yes for yes and No for no  \n')
 
-    if add_genre == 'Yes':
-        add_a_genre()
+        if add_genre == 'Yes':
+            add_a_genre()
 
-    if add_artist == 'Yes':
-        add_an_artist()
+        if delete_genre == 'Yes':
+            delete_a_genre()
 
-    if delete_genre == 'Yes':
-        delete_a_genre()
+        if lookup_genre == 'Yes':
+            lookup_a_genre()
 
-    if lookup_genre == 'Yes':
-        lookup_a_genre()
+        if print_genre_or_not == 'Yes':
+            print_genre()
 
-    if lookup_artist == 'Yes':
-        lookup_an_artist()
+        if add_artist == 'Yes':
+            add_an_artist()
 
-    if print_genre_or_not == 'Yes':
-        print_genre()
+        if delete_artist == 'Yes':
+            delete_an_artist()
 
-    # if print_artist_or_not == 'Yes':
-    #     print_artist()
+        if lookup_artist == 'Yes':
+            lookup_an_artist()
+
+    if genre_or_artist == 'Genre':
+        add_genre: str = input('Do you want to add a genre ? type Yes for yes and No for no  \n')
+        lookup_genre: str = input('Do you want to look up a genre ? type Yes for yes and No for no  \n')
+        delete_genre: str = input('Do you want to delete a genre ? type Yes for yes and No for no  \n')
+        print_genre_or_not: str = input('Do you want to return a genre ? type Yes for yes and No for no  \n')
+
+        if add_genre == 'Yes':
+            add_a_genre()
+
+        if delete_genre == 'Yes':
+            delete_a_genre()
+
+        if lookup_genre == 'Yes':
+            lookup_a_genre()
+
+        if print_genre_or_not == 'Yes':
+            print_genre()
+
+    if genre_or_artist == 'Artist':
+        add_artist: str = input('Do you want to add an artist ? type Yes for yes and No for no  \n')
+        lookup_artist: str = input('Do you want to look up an artist ? type Yes for yes and No for no  \n')
+        delete_artist: str = input('Do you want to delete an artist ? type Yes for yes and No for no  \n')
+
+        if add_artist == 'Yes':
+            add_an_artist()
+
+        if delete_artist == 'Yes':
+            delete_an_artist()
+
+        if lookup_artist == 'Yes':
+            lookup_an_artist()
+
+
 
 
 def print_genre():
@@ -71,6 +108,18 @@ def delete_a_genre():
     genre_to_delete: str = input('What genre do you want to delete ? \n')
     genre_list.delete_genre(genre_to_delete)
     print(genre_list.show_all())
+
+
+def delete_an_artist():
+    artist_to_delete: str = input('What artist do you want to delete ? \n')
+    genre_to_delete_from: str = input(f'What genre do you want to delete {artist_to_delete} from ? \n')
+    if genre_to_delete_from == 'rock':
+        rock_database.delete_artist(artist=artist_to_delete)
+        rock_database.show_all()
+        return
+    if genre_to_delete_from == 'pop':
+        pop_database.delete_artist(artist=artist_to_delete)
+        pop_database.show_all()
 
 
 def add_a_genre():
