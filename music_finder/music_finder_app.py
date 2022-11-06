@@ -78,8 +78,6 @@ def main() -> None:
             lookup_an_artist()
 
 
-
-
 def print_genre():
     random_or_all: str = \
         input('Do you want a random genre or all genres printed ? type Random for random and All for all \n')
