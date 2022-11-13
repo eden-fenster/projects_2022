@@ -15,8 +15,7 @@ def weights_sum(a: List[int], i: int, j: int, sum_of_weights: int) -> bool:
 
     return \
         weights_sum(a=a, i=i + 1, j=j, sum_of_weights=sum_of_weights) or \
-        weights_sum(a=a, i=i, j=j - 1, sum_of_weights=sum_of_weights) or \
-        weights_sum(a=a, i=i + 1, j=j - 1, sum_of_weights=sum_of_weights)
+        weights_sum(a=a, i=i, j=j - 1, sum_of_weights=sum_of_weights)
 
 
 def test_weights():
