@@ -25,3 +25,6 @@ def test_weights():
     weight_sum: int = 12
     example = weights_sum_wrapper(a=array, sum_of_weights=weight_sum)
     assert example is True
+    weight_sum_two: int = 15
+    example_two = weights_sum_wrapper(a=array, sum_of_weights=weight_sum_two)
+    assert example_two is False
