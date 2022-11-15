@@ -3,21 +3,20 @@ from typing import List
 
 
 def weights_sum_wrapper(a: List[int], sum_of_weights: int) -> bool:
-    return weights_sum(a, 0, len(a) - 1, sum_of_weights)
+    return weights_sum(a, 0, sum_of_weights, False)
 
 
-def weights_sum(a: List[int], i: int, j: int, sum_of_weights: int) -> bool:
-    if i >= len(a) - 1 or j <= 0:
+def weights_sum(a: List[int], i: int, sum_of_weights: int, taken: bool) -> bool:
+    if i >= len(a) - 1:
         return False
-
-    if a[i] + a[j] == sum_of_weights or a[i] == sum_of_weights or a[j] == sum_of_weights:
+    if sum_of_weights == 0:
         return True
-
-    return \
-        weights_sum(a=a, i=i + 1, j=j, sum_of_weights=sum_of_weights) and \
-        weights_sum(a=a, i=i, j=j - 1, sum_of_weights=sum_of_weights) or \
-        (weights_sum(a=a, i=i + 1, j=j, sum_of_weights=sum_of_weights) or
-         weights_sum(a=a, i=i, j=j - 1, sum_of_weights=sum_of_weights))
+    if sum_of_weights < 0:
+        return False
+    if weights_sum(a, i + 1, sum_of_weights, False):
+        return True
+    value: int = a[i]
+    return weights_sum(a, i + 1, sum_of_weights - value, True)
 
 
 def test_weights():
