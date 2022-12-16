@@ -82,10 +82,11 @@ def solve_nq_util(board, col, number_of_queens) -> bool:
 def solve_nq(number_of_queens: int):
     board: List[List[int]] = []
     inside_board: List[int] = []
-    for i in range(0, number_of_queens):
-        for j in range(0, number_of_queens):
+    for i in range(number_of_queens):
+        for j in range(number_of_queens):
             inside_board.append(0)
         board.append(inside_board)
+        inside_board = []
 
     if not solve_nq_util(board, 0, number_of_queens):
         print("Solution does not exist")
