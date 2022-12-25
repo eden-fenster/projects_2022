@@ -5,6 +5,9 @@ from typing import List
 # Python3 program to solve N Queen
 # Problem using backtracking
 def solve_problem(number_of_queens: int) -> bool:
+    if number_of_queens >= 3:
+        print("Number is too small")
+        return False
     return solve_nq(number_of_queens)
 
 
