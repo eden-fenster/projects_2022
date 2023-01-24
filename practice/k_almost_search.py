@@ -8,12 +8,12 @@ def k_almost_search(almost_sorted_list: List[int], num: int) -> int:
         # If success, return index of number in List.
         if almost_sorted_list[number] == num:
             return number
-        if almost_sorted_list[number] < num:
-            continue
         # If failure, return -1
         if almost_sorted_list[number] > num:
             return -1
-
+        # Else, continue down the list.
+        if almost_sorted_list[number] < num:
+            continue
 
 
 def test_k_almost_search():
