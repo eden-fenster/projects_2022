@@ -4,7 +4,7 @@ import sys
 
 def calc_wrapper(num: int, result: int, max_op: int) -> int:
     return calc(num=num, result=result, max_op=max_op,
-                num_of_calculations=0, result_up_to_this_point=0, history_of_calculations='')
+                num_of_calculations=0, result_up_to_this_point=num, history_of_calculations='')
 
 
 def calc(num: int, result: int, max_op: int, num_of_calculations: int,
@@ -30,21 +30,24 @@ def calc(num: int, result: int, max_op: int, num_of_calculations: int,
     divide: int = calc(num=num, result=result, max_op=max_op, num_of_calculations=num_of_calculations + 1,
                        result_up_to_this_point=result_up_to_this_point // num,
                        history_of_calculations=history_of_calculations + "/")
+
+    # Return a sum of the calculations.
+    return add + subtract + multiply + divide
     # Return the one with the smallest # of calculations that is legal.
-    current_min: int = sys.maxsize
-    if add != 0:
-        current_min = add
-    if subtract != 0:
-        current_min = min(current_min, subtract)
-    if multiply != 0:
-        current_min = min(current_min, multiply)
-    if divide != 0:
-        current_min = min(current_min, divide)
-
-    if current_min == sys.maxsize:
-        return 0
-
-    return current_min
+    # current_min: int = sys.maxsize
+    # if add != 0:
+    #    current_min = add
+    # if subtract != 0:
+    #     current_min = min(current_min, subtract)
+    # if multiply != 0:
+    #     current_min = min(current_min, multiply)
+    # if divide != 0:
+    #     current_min = min(current_min, divide)
+    #
+    # if current_min == sys.maxsize:
+    #     return 0
+    #
+    # return current_min
 
 
 def string_history(num: int, history_of_calculations: str, num_of_calculations: int, num_in_history: int) -> str:
@@ -56,5 +59,5 @@ def string_history(num: int, history_of_calculations: str, num_of_calculations: 
                           num_of_calculations=num_of_calculations, num_in_history=num_in_history + 1)
 
 
-def test_calc():
-    assert calc_wrapper(num=1, result=3, max_op=4) == 2
+def main():
+    print(calc_wrapper(num=3, result=36, max_op=4))
