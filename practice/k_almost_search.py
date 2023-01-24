@@ -4,14 +4,16 @@ from typing import List
 
 def k_almost_search(almost_sorted_list: List[int], num: int) -> int:
     # Looping over the list.
-    for number in almost_sorted_list:
+    for number in range(0, len(almost_sorted_list)):
+        # If success, return index of number in List.
+        if almost_sorted_list[number] == num:
+            return number
         if almost_sorted_list[number] < num:
             continue
         # If failure, return -1
         if almost_sorted_list[number] > num:
             return -1
-        # If success, return index of number in List.
-        return number
+
 
 
 def test_k_almost_search():
