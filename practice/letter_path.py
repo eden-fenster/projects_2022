@@ -45,9 +45,13 @@ def max_path(mat: List[List[str]], row: int, col: int, pattern: str, marked: Lis
     # Marking our position and moving down the search path and calculating path with a starting point at every position.
     marked[row][col] = True
     north: int = max_path(mat=mat, row=row - 1, col=col, pattern=pattern, marked=marked)
+    print("Went North")
     south: int = max_path(mat=mat, row=row + 1, col=col, pattern=pattern, marked=marked)
+    print("Went South")
     east: int = max_path(mat=mat, row=row, col=col + 1, pattern=pattern, marked=marked)
+    print("Went East")
     west: int = max_path(mat=mat, row=row, col=col - 1, pattern=pattern, marked=marked)
+    print("Went West")
 
     # If max > 0, success.
     return max(path, north, south, east, west)
