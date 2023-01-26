@@ -30,31 +30,23 @@ def length_path(mat: List[List[str]], row: int, col: int, pattern: str, length_o
 
 
 def max_path_wrapper(mat: List[List[str]], pattern: str) -> int:
-    # Creating a list where we mark after visiting a position.
-    rows, cols = (len(mat), len(mat[0]))
-    marked: List[List[bool]] = [[False] * cols] * rows
-    return max_path(mat=mat, row=0, col=0, pattern=pattern, marked=marked)
+    return max_path(mat=mat, row=0, col=0, pattern=pattern, max_length=0)
 
 
-def max_path(mat: List[List[str]], row: int, col: int, pattern: str, marked: List[List[bool]]) -> int:
-    # If illegal coordinates, failure and return 0.
-    if row < 0 or col < 0 or row > len(mat) - 1 or col > len(mat[0]) - 1 or marked[row][col]:
-        return 0
-    # Calculating path starting from[row][col]
+def max_path(mat: List[List[str]], row: int, col: int, pattern: str, max_length: int) -> int:
+    # If done, return length.
+    if row > len(mat) - 1:
+        return max_length
+    # If row is done, move to next one.
+    if col > len(mat[0]) - 1:
+        return max_path(mat=mat, row=row + 1, col=0, pattern=pattern, max_length=max_length)
+    # Starting path from current position.
     path: int = length_path(mat=mat, row=row, col=col, pattern=pattern, length_of_path=0)
-    # Marking our position and moving down the search path and calculating path with a starting point at every position.
-    marked[row][col] = True
-    north: int = max_path(mat=mat, row=row - 1, col=col, pattern=pattern, marked=marked)
-    print("Went North")
-    south: int = max_path(mat=mat, row=row + 1, col=col, pattern=pattern, marked=marked)
-    print("Went South")
-    east: int = max_path(mat=mat, row=row, col=col + 1, pattern=pattern, marked=marked)
-    print("Went East")
-    west: int = max_path(mat=mat, row=row, col=col - 1, pattern=pattern, marked=marked)
-    print("Went West")
-
-    # If max > 0, success.
-    return max(path, north, south, east, west)
+    # If path > max, change max
+    if path > max_length:
+        max_length = path
+    # Moving down the search path
+    return max_path(mat=mat, row=row, col=col + 1, pattern=pattern, max_length=max_length)
 
 
 def test_length_path_and_max_path():
