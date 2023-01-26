@@ -9,7 +9,7 @@ def length_path_wrapper(mat: List[List[str]], pattern: str) -> int:
 def length_path(mat: List[List[str]], row: int, col: int, pattern: str, length_of_path: int) -> int:
     # If failure, return length of path.
     if row < 0 or col < 0 or \
-            row > len(mat) - 1 or col > len(mat[0]) - 1 or mat[row][col] == -1:
+            row > len(mat) - 1 or col > len(mat[row]) - 1 or mat[row][col] == -1:
         return length_of_path
     if mat[row][col] not in pattern:
         return length_of_path
@@ -38,7 +38,7 @@ def max_path(mat: List[List[str]], row: int, col: int, pattern: str, max_length:
     if row > len(mat) - 1:
         return max_length
     # If row is done, move to next one.
-    if col > len(mat[0]) - 1:
+    if col > len(mat[row]) - 1:
         return max_path(mat=mat, row=row + 1, col=0, pattern=pattern, max_length=max_length)
     # Starting path from current position.
     path: int = length_path(mat=mat, row=row, col=col, pattern=pattern, length_of_path=0)
