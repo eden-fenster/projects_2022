@@ -17,7 +17,7 @@ def count_triplets(array_of_numbers: List[int], num: int, first_location: int, s
         return number_of_correct_equations
     # If second # reached the end or second # == num,
     # increment first #, change other #'s accordingly and continue down the search path.
-    if second_location > len(array_of_numbers) - 2 or second_location == third_location:
+    if second_location > len(array_of_numbers) - 2 or second_location + 1 == third_location:
         new_first_number_location: int = first_location + 1
         new_second_number_location: int = new_first_number_location + 1
         new_third_number_location: int = new_second_number_location + 1
