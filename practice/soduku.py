@@ -1,16 +1,9 @@
 #!/usr/bin/env python3
 # Gets from user a 9 x 9 board.
-import os.path
+
 from typing import List
 import argparse
 
-
-# Get soduku from file.
-# Read each line of file into a List of Strings.
-# List of singles
-# Convert to int
-# Translate each String into numbers.
-# Insert numbers into a two-dimensional List.
 
 # Check if all numbers are between 1 - n.
 # If no, fail.
