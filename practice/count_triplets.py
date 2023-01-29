@@ -2,13 +2,13 @@
 from typing import List
 
 
-def count_triplets_wrapper(array_of_numbers: List[int], num: int):
+def count_triplets_wrapper(array_of_numbers: List[int], num: int) -> int:
     return count_triplets(array_of_numbers=array_of_numbers, num=num, first_location=0,
                           second_location=1, third_location=2, number_of_correct_equations=0)
 
 
 def count_triplets(array_of_numbers: List[int], num: int, first_location: int, second_location: int,
-                   third_location: int, number_of_correct_equations: int):
+                   third_location: int, number_of_correct_equations: int) -> int:
     # print(f'First -> {first_location}, Second -> {second_location}, Third -> {third_location}')
     # If success, return # of correct equations.
     if first_location > len(array_of_numbers) - 3:
