@@ -2,7 +2,15 @@
 # Gets from user a 9 x 9 board.
 from typing import List
 
+# Get soduku from file.
+# Read each line of file into a List of Strings.
+# Translate each String into numbers.
+# Insert numbers into a two-dimensional List.
 
+# Check if all numbers are between 1 - n.
+# If no, fail.
+# If yes, check for each row, col and k * l sub-table.
+# Check that each number doesn't appear more than once at the 3 things above.
 def is_soduku_wrapper(soduku: List[List[int]]) -> bool:
     return is_soduku(soduku, 0, 0, 1, 1)
 
