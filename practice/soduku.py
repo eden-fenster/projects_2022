@@ -21,6 +21,15 @@ def get_args():
 def main():
     args = get_args()
     file_to_open = args.file
+    print(create_sudoku(read_file(file_to_open=file_to_open)))
+
+
+if __name__ == "__main__":
+    main()
+
+
+# Reads in a file
+def read_file(file_to_open) -> List[str]:
     list_of_lines: List[str] = []
     # Reading the file by line.
     file = open(file_to_open, 'r')
@@ -31,7 +40,11 @@ def main():
             break
         list_of_lines.append(next_line.strip())
     file.close()
+    return list_of_lines
 
+
+# Converts a file into a two-dimensional list.
+def create_sudoku(list_of_lines: List[str]) -> List[List[int]]:
     # Converting the lines into numbers, creating a two-dimensional list of ints.
     sudoku: List[List[int]] = []
     sudoku_line: List[int] = []
@@ -42,43 +55,58 @@ def main():
             sudoku_line.append(int(number))
         sudoku.append(sudoku_line)
         sudoku_line = []
-    for line in sudoku:
-        print(line)
+    return sudoku
 
 
-if __name__ == "__main__":
-    main()
+# Fills the sudoku.
+def fill_sudoku(sudoku: List[List[int]], row: int, col: int,
+                smallest_number: int, largest_number: int) -> List[List[int]]:
+    # If we went over all the rows, return filled sudoku table.
+    if row >= len(sudoku):
+        return sudoku
 
-# def is_soduku_wrapper(soduku: List[List[int]]) -> bool:
-#     return is_soduku(soduku, 0, 0, 1, 1)
-#
-#
-# def is_soduku(soduku: List[List[int]], where_in_row: int, where_in_col: int, range_of_row: int,
-#               range_of_col: int) -> bool:
-#     # Checks to see if it's a soduku , if not - fail.
-#     # if rows don't have 1 - 9, fail.
-#     if not is_list_part_of_soduku(row=soduku[where_in_row]):
-#         return False
-#     if not is_list_part_of_soduku(row=soduku[where_in_row[where_in_col]]):
-#         return False
-#     # # If a range of i (0-2, 3-5, 6-8) and j (0-2, 3-5, 6-8) is missing numbers between 1 - 9, fail.
-#     # If all pass, win.
-#     return True
-#
-#
-# # Checks to see if row is part of soduku.
-# def is_list_part_of_soduku(row: List[int]) -> bool:
-#     # If length is not 9, fail.
-#     if len(row) != 9:
-#         return False
-#     # If 1 - 9 do not all appear, fail.
-#     if 1 not in row or 2 not in row or 3 not in row or 4 not in row or 5 not in row or 6 not in row or 7 not in row \
-#             or 8 not in row or 9 not in row:
-#         return False
-#     # else, win and move to next row.
-#     return True
-#
-#
-# # Checks to see if range is part of soduku.
-# def is_range_part_of_soduku(soduku: List[List[int]], range_of_row: int, range_of_col: int) -> bool:
-#     pass
+    # If we finished a row, go to the next row.
+    if col >= len(sudoku[row]):
+        return fill_sudoku(sudoku=sudoku, row=row + 1, col=0,
+                           smallest_number=smallest_number, largest_number=largest_number)
+
+    # Adding in numbers to row.
+    for number in range(smallest_number, largest_number + 1):
+        can_i_put_num: bool = True
+        # Is # already in row ?
+        if number in sudoku[row]:
+            can_i_put_num = False
+            continue
+        # Is # already in column ?
+        for r in range(0, len(sudoku)):
+            # If # not in col, continue, else, break.
+            if sudoku[r][col] != number:
+                continue
+            can_i_put_num = False
+            break
+        # Putting it in.
+        if can_i_put_num and sudoku[row][col] == 0:
+            sudoku[row][col] = number
+    # Moving down the search path to the next col in the row.
+    return fill_sudoku(sudoku=sudoku, row=row, col=col + 1,
+                       smallest_number=smallest_number, largest_number=largest_number)
+
+
+def test_fill_sudoku():
+    sudoku: List[List[int]] = \
+        create_sudoku(read_file(file_to_open="test.txt"))
+    assert fill_sudoku(sudoku=sudoku, row=0, col=0, smallest_number=1, largest_number=4) \
+           == [[3, 1, 2, 4], [2, 4, 1, 3], [1, 3, 4, 2], [4, 2, 3, 1]]
+    second_sudoku: List[List[int]] = \
+        create_sudoku(read_file(file_to_open="test2.txt"))
+    assert fill_sudoku(sudoku=second_sudoku,
+                       row=0, col=0, smallest_number=1, largest_number=9) \
+           == [[8, 1, 2, 3, 6, 5, 7, 4, 9],
+               [5, 7, 3, 2, 9, 4, 6, 1, 8],
+               [6, 4, 9, 7, 1, 8, 5, 2, 3],
+               [7, 8, 6, 4, 3, 2, 9, 5, 1],
+               [9, 5, 1, 6, 8, 7, 2, 3, 4],
+               [2, 3, 4, 9, 5, 1, 8, 6, 7],
+               [1, 6, 8, 5, 7, 3, 4, 9, 2],
+               [4, 9, 7, 1, 2, 6, 3, 8, 5],
+               [3, 2, 5, 8, 4, 9, 1, 7, 6]]
