@@ -37,7 +37,7 @@ def main():
     sudoku_line: List[int] = []
     for line in list_of_lines:
         for number in line:
-            if number == "":
+            if number == " ":
                 continue
             sudoku_line.append(int(number))
         sudoku.append(sudoku_line)
