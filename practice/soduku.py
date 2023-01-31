@@ -84,6 +84,7 @@ def fill_sudoku(sudoku: List[List[int]], row: int, col: int,
                 continue
             can_i_put_num = False
             break
+        # Is it already in square ?
         # Putting it in.
         if can_i_put_num and sudoku[row][col] == 0:
             sudoku[row][col] = number
