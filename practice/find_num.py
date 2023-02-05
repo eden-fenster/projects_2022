@@ -24,3 +24,10 @@ def find_num(ranges: List[Range], num: int, location: int) -> int:
     # Else, move down the search path.
     return find_num(ranges=ranges, num=num, location=location + 1)
 
+
+def test_find_num():
+    ranges: List[Range] = [Range(4, 1), Range(12, 0), Range(20, 1), Range(102, 2)]
+    assert find_num_wrapper(ranges=ranges, num=5) == 0
+    assert find_num_wrapper(ranges=ranges, num=101) == 3
+    assert find_num_wrapper(ranges=ranges, num=15) == -1
+    assert find_num_wrapper(ranges=ranges, num=105) == -1
