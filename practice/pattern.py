@@ -7,7 +7,7 @@ def same_pattern_wrapper(first_string: str, second_string: str) -> bool:
 
 def same_pattern(first_string: str, pattern_string: str,
                  location_in_first: int, location_in_pattern: int, pattern_from_string: str) -> bool:
-    print(f'Pattern -> {pattern_from_string}')
+    # print(f'Pattern -> {pattern_from_string}')
     # If second string is just an *, return true.
     if pattern_string is '*':
         return True
