@@ -86,7 +86,7 @@ def fill_sudoku(sudoku: List[List[int]], row: int, col: int,
             break
         # Is # inside sub - table ?
         start_row: int = row - row % 2
-        start_col = col - col % 2
+        start_col: int = col - col % 2
         for r in range(2):
             for c in range(2):
                 if sudoku[r + start_row][c + start_col] != number:
@@ -97,6 +97,7 @@ def fill_sudoku(sudoku: List[List[int]], row: int, col: int,
         # Putting it in.
         if can_i_put_num and sudoku[row][col] == 0:
             sudoku[row][col] = number
+    print(f'Number -> {sudoku[row][col]}')
     # Moving down the search path to the next col in the row.
     return fill_sudoku(sudoku=sudoku, row=row, col=col + 1,
                        smallest_number=smallest_number, largest_number=largest_number)
