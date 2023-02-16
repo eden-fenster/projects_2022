@@ -107,6 +107,10 @@ def test_fill_sudoku():
         create_sudoku(read_file(file_to_open="test.txt"))
     assert fill_sudoku(sudoku=sudoku, row=0, col=0, smallest_number=1, largest_number=4) \
            == [[3, 1, 2, 4], [2, 4, 1, 3], [1, 3, 4, 2], [4, 2, 3, 1]]
+    second_sudoku: List[List[int]] = \
+        create_sudoku(read_file(file_to_open="test3.txt"))
+    assert fill_sudoku(sudoku=second_sudoku, row=0, col=0, smallest_number=1, largest_number=4) \
+           == [[2, 4, 3, 1], [3, 1, 2, 4], [1, 3, 4, 2], [4, 2, 1, 3]]
     # second_sudoku: List[List[int]] = \
     #     create_sudoku(read_file(file_to_open="test2.txt"))
     # assert fill_sudoku(sudoku=second_sudoku,
