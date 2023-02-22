@@ -2,11 +2,11 @@
 from typing import List
 
 
-def longest_palindrome_wrapper(list_of_numbers: List[int]):
+def longest_palindrome_wrapper(list_of_numbers: List[int]) -> int:
     return longest_palindrome(list_of_numbers=list_of_numbers, location_one=0, location_two=len(list_of_numbers) - 1)
 
 
-def longest_palindrome(list_of_numbers: List[int], location_one: int, location_two):
+def longest_palindrome(list_of_numbers: List[int], location_one: int, location_two) -> int:
     # If out of range, return 0.
     if location_one == len(list_of_numbers) or location_two == len(list_of_numbers):
         return 0
