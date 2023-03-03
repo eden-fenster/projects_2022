@@ -2,7 +2,7 @@ from abc import abstractmethod
 from typing import List
 
 
-class Base():
+class Base:
     def __init__(self, name):
         print("In base class init")
         self._name = name
@@ -26,9 +26,7 @@ class Cat(Base):
         print(f"Meow {self.name}")
 
 
-
 animals: List[Base] = [Dog("Anoogie"), Cat("Tabbie"), Cat("It")]
 
 for animal in animals:
     animal.talk()
-
