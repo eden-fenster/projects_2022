@@ -72,7 +72,7 @@ def main() -> None:
         # if all digits match – you won.
         if comparison_results.correct_locations == number_of_digits:
             print('You won !')
-            db.add_one(generated_number=int(number), guessed='True', number_of_guesses=tries_so_far)
+            db.add_one(number=int(number), guessed='True', guesses=tries_so_far)
             db.show_all()
             break
 
@@ -85,7 +85,7 @@ def main() -> None:
         # If you didn’t guess after N  (parameter) times, you lose, and we exit the program.
         if tries_so_far >= number_of_tries:
             print(f'You lose, loser.\nthe number was {number}')
-            db.add_one(generated_number=int(number), guessed='False', number_of_guesses=tries_so_far)
+            db.add_one(number=int(number), guessed='False', guesses=tries_so_far)
             db.show_all()
             break
 
