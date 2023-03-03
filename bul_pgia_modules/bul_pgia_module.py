@@ -9,7 +9,7 @@ Purpose: Bul_Pgia
 import argparse
 from methods.generate_number import Generate
 from methods.compare_numbers import Compare
-from bul_pgia_record_database_sqlalchemy import BulPgiaDatabase as Database
+from bul_pgia_record_database_odbc import BulPgiaDatabase as Database
 
 db = Database()
 

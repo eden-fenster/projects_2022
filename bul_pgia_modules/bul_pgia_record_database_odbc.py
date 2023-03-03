@@ -16,6 +16,6 @@ class BulPgiaDatabase:
             print(item)
 
     def add_one(self, number: int, guessed: str, guesses: int):
-        self._cursor.execute("insert into bul_pgia_records (number, guessed, guesses) values (?, ?, ?)"
-                             , number, guessed, guesses)
+        self._cursor.execute("insert into bul_pgia_records (number, guessed, guesses) values (?, ?, ?)",
+                             number, guessed, guesses)
         self._connection.commit()
