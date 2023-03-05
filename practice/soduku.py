@@ -11,7 +11,8 @@ import argparse
 # Check that each number doesn't appear more than once at the 3 things above.
 def get_args():
     # Getting a file that contains a partially filled sudoku from the command line.
-    parser = argparse.ArgumentParser(description='Sudoku', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser\
+        (description='Sudoku', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('file', metavar='file', help='Input file')
     args = parser.parse_args()
 
