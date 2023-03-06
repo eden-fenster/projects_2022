@@ -82,6 +82,7 @@ def fill_sudoku(sudoku: List[List[int]], current_row: int, current_column: int,
                 continue
             can_i_put_num = False
             break
+        # TODO : Backtracking if something goes wrong.
         # Is # inside sub - table ?
         start_row: int = current_row - current_row % sub_square_size
         start_col: int = current_column - current_column % sub_square_size
