@@ -48,6 +48,8 @@ def create_sudoku(list_of_lines: List[str]) -> List[List[int]]:
         for number in line:
             if number == " ":
                 continue
+            if not number.isdigit():
+                print(f"TODO: Logging, this is not a number {number}")
             sudoku_line.append(int(number))
         sudoku.append(sudoku_line)
         sudoku_line = []
