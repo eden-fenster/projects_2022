@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Gets from user a 9 x 9 board.
-
+import logging
 from typing import List
 import argparse
 
@@ -21,6 +21,7 @@ def get_args():
 
 def main():
     args = get_args()
+    # sub_square_size: int = int(input("What is the size of the sub_square ? "))
     file_to_open = args.file
     print(create_sudoku(read_file(file_to_open=file_to_open)))
 
@@ -46,10 +47,9 @@ def create_sudoku(list_of_lines: List[str]) -> List[List[int]]:
     sudoku_line: List[int] = []
     for line in list_of_lines:
         for number in line:
-            if number == " ":
-                continue
             if not number.isdigit():
-                print(f"TODO: Logging, this is not a number {number}")
+                logging.warning('Not a number')
+                continue
             sudoku_line.append(int(number))
         sudoku.append(sudoku_line)
         sudoku_line = []
@@ -58,7 +58,7 @@ def create_sudoku(list_of_lines: List[str]) -> List[List[int]]:
 
 # Fills the sudoku.
 def fill_sudoku(sudoku: List[List[int]], current_row: int, current_column: int,
-                smallest_number: int, largest_number: int) -> List[List[int]]:
+                smallest_number: int, largest_number: int, sub_square_size: int) -> List[List[int]]:
     # If we went over all the rows, return filled sudoku table.
     if current_row >= len(sudoku):
         return sudoku
@@ -66,14 +66,14 @@ def fill_sudoku(sudoku: List[List[int]], current_row: int, current_column: int,
     # If we finished a row, go to the next row.
     if current_column >= len(sudoku[current_row]):
         return fill_sudoku(sudoku=sudoku, current_row=current_row + 1, current_column=0,
-                           smallest_number=smallest_number, largest_number=largest_number)
+                           smallest_number=smallest_number, largest_number=largest_number,
+                           sub_square_size=sub_square_size)
 
     # Adding in numbers to row.
     for number in range(smallest_number, largest_number + 1):
         can_i_put_num: bool = True
         # Is # already in row ?
         if number in sudoku[current_row]:
-            can_i_put_num = False
             continue
         # Is # already in column ?
         for actual_row in sudoku:
@@ -83,10 +83,10 @@ def fill_sudoku(sudoku: List[List[int]], current_row: int, current_column: int,
             can_i_put_num = False
             break
         # Is # inside sub - table ?
-        start_row: int = current_row - current_row % 2
-        start_col: int = current_column - current_column % 2
-        for row in range(2):
-            for column in range(2):
+        start_row: int = current_row - current_row % sub_square_size
+        start_col: int = current_column - current_column % sub_square_size
+        for row in range(sub_square_size):
+            for column in range(sub_square_size):
                 if sudoku[row + start_row][column + start_col] != number:
                     continue
                 can_i_put_num = False
@@ -98,17 +98,19 @@ def fill_sudoku(sudoku: List[List[int]], current_row: int, current_column: int,
     print(f'Number -> {sudoku[current_row][current_column]}')
     # Moving down the search path to the next col in the row.
     return fill_sudoku(sudoku=sudoku, current_row=current_row, current_column=current_column + 1,
-                       smallest_number=smallest_number, largest_number=largest_number)
+                       smallest_number=smallest_number, largest_number=largest_number, sub_square_size=sub_square_size)
 
 
 def test_fill_sudoku():
     sudoku: List[List[int]] = \
         create_sudoku(read_file(file_to_open="test.txt"))
-    assert fill_sudoku(sudoku=sudoku, current_row=0, current_column=0, smallest_number=1, largest_number=4) \
+    assert fill_sudoku(sudoku=sudoku, current_row=0, current_column=0,
+                       smallest_number=1, largest_number=4, sub_square_size=2) \
            == [[3, 1, 2, 4], [2, 4, 1, 3], [1, 3, 4, 2], [4, 2, 3, 1]]
     second_sudoku: List[List[int]] = \
         create_sudoku(read_file(file_to_open="test3.txt"))
-    assert fill_sudoku(sudoku=second_sudoku, current_row=0, current_column=0, smallest_number=1, largest_number=4) \
+    assert fill_sudoku(sudoku=second_sudoku, current_row=0, current_column=0, smallest_number=1, largest_number=4,
+                       sub_square_size=2) \
            == [[2, 4, 3, 1], [3, 1, 2, 4], [1, 3, 4, 2], [4, 2, 1, 3]]
     # second_sudoku: List[List[int]] = \
     #     create_sudoku(read_file(file_to_open="test2.txt"))
