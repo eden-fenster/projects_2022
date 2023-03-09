@@ -48,6 +48,7 @@ def create_sudoku(list_of_lines: List[str]) -> List[List[int]]:
     for line in list_of_lines:
         for number in line:
             if not number.isdigit():
+                logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
                 logging.warning('Not a number')
                 continue
             sudoku_line.append(int(number))
