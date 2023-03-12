@@ -105,7 +105,7 @@ def fill_sudoku(sudoku: List[List[int]], current_row: int, current_column: int,
 
 def test_fill_sudoku():
     sudoku: List[List[int]] = \
-        create_sudoku(read_file(file_to_open="test.txt"))
+        create_sudoku(read_file(file_to_open="sudoku/test.txt"))
     assert fill_sudoku(sudoku=sudoku, current_row=0, current_column=0,
                        smallest_number=1, largest_number=4, sub_square_size=2) \
            == [[3, 1, 2, 4], [2, 4, 1, 3], [1, 3, 4, 2], [4, 2, 3, 1]]

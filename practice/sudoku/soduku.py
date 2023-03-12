@@ -3,7 +3,7 @@
 import logging
 from typing import List
 import argparse
-from soduku_class import Sudoku
+from soduku_class import solve_sudoku
 
 
 # Check if all numbers are between 1 - n.
@@ -22,13 +22,8 @@ def get_args():
 
 def main():
     args = get_args()
-    # sub_square_size: int = int(input("What is the size of the sub_square ? "))
     file_to_open = args.file
-    print(create_sudoku(read_file(file_to_open=file_to_open)))
-
-
-if __name__ == "__main__":
-    main()
+    print(solve_sudoku(grid=create_sudoku(read_file(file_to_open=file_to_open))))
 
 
 # Reads in a file
@@ -58,6 +53,10 @@ def create_sudoku(list_of_lines: List[str]) -> List[List[int]]:
     return sudoku
 
 
+if __name__ == "__main__":
+    main()
+
+
 # Fills the sudoku.
 # def fill_sudoku(sudoku: List[List[int]], current_row: int, current_column: int,
 #                 smallest_number: int, largest_number: int, sub_square_size: int) -> List[List[int]]:
@@ -84,7 +83,6 @@ def create_sudoku(list_of_lines: List[str]) -> List[List[int]]:
 #                 continue
 #             can_i_put_num = False
 #             break
-#         # TODO : Backtracking if something goes wrong.
 #         # Is # inside sub - table ?
 #         start_row: int = current_row - current_row % sub_square_size
 #         start_col: int = current_column - current_column % sub_square_size
@@ -107,16 +105,14 @@ def create_sudoku(list_of_lines: List[str]) -> List[List[int]]:
 
 def test_fill_sudoku():
     sudoku: List[List[int]] = \
-        create_sudoku(read_file(file_to_open="../test.txt"))
-    first: Sudoku = Sudoku(sudoku, 4)
-    assert first.solve_sudoku(2) == [[3, 1, 2, 4], [2, 4, 1, 3], [1, 3, 4, 2], [4, 2, 3, 1]]
+        create_sudoku(read_file(file_to_open="test.txt"))
+    assert solve_sudoku(sudoku, 2) == [[3, 1, 2, 4], [2, 4, 1, 3], [1, 3, 4, 2], [4, 2, 3, 1]]
     # assert fill_sudoku(sudoku=sudoku, current_row=0, current_column=0,
     #                   smallest_number=1, largest_number=4, sub_square_size=2) \
     #       == [[3, 1, 2, 4], [2, 4, 1, 3], [1, 3, 4, 2], [4, 2, 3, 1]]
     second_sudoku: List[List[int]] = \
         create_sudoku(read_file(file_to_open="../test3.txt"))
-    second: Sudoku = Sudoku(second_sudoku, 4)
-    assert second.solve_sudoku(2) == [[2, 4, 3, 1], [3, 1, 2, 4], [1, 3, 4, 2], [4, 2, 1, 3]]
+    assert solve_sudoku(second_sudoku, 2) == [[2, 4, 3, 1], [3, 1, 2, 4], [1, 3, 4, 2], [4, 2, 1, 3]]
     # assert fill_sudoku(sudoku=second_sudoku, current_row=0, current_column=0, smallest_number=1, largest_number=4,
     #                   sub_square_size=2) \
     #       == [[2, 4, 3, 1], [3, 1, 2, 4], [1, 3, 4, 2], [4, 2, 1, 3]]

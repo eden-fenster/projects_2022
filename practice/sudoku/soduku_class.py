@@ -115,59 +115,60 @@ class Sudoku:
                 uniques.append((group_inds, [num]))
         return uniques
 
-    def solve_sudoku(grid, num_boxes=SIZE, all_solutions=False):
-        def solve(puzzle, depth=0):
-            nonlocal calls, depth_max
-            calls += 1
-            depth_max = max(depth, depth_max)
-            solved = False
-            while not solved:
-                solved = True
-                edited = False  # if no edits, either done or stuck
-                for i in range(n):
-                    for j in range(n):
-                        if puzzle.grid[i][j] == 0:
-                            solved = False
-                            options = puzzle.candidates[i][j]
-                            if len(options) == 0:
-                                return False  # this call is going nowhere
-                            elif len(options) == 1:  # Step 1
-                                puzzle.place_and_erase(i, j, list(options)[0])  # Step 2
-                                edited = True
-                if not edited:  # changed nothing in this round -> either done or stuck
-                    if solved:
-                        solution_set.append(grid2str(puzzle.grid))
-                        return True
-                    else:  # Find the square with the least number of options
-                        min_guesses = (n + 1, -1)
-                        for i in range(n):
-                            for j in range(n):
-                                options = puzzle.candidates[i][j]
-                                if len(options) > 1:
-                                    min_guesses = min((len(options), (i, j)), min_guesses)
-                        i, j = min_guesses[1]
+
+def solve_sudoku(grid, num_boxes=SIZE, all_solutions=False):
+    def solve(puzzle, depth=0):
+        nonlocal calls, depth_max
+        calls += 1
+        depth_max = max(depth, depth_max)
+        solved = False
+        while not solved:
+            solved = True
+            edited = False  # if no edits, either done or stuck
+            for i in range(n):
+                for j in range(n):
+                    if puzzle.grid[i][j] == 0:
+                        solved = False
                         options = puzzle.candidates[i][j]
-                        for y in options:  # step 3. backtracking check point:
-                            puzzle_next = deepcopy(puzzle)
-                            puzzle_next.place_and_erase(i, j, y)
-                            solved = solve(puzzle_next, depth=depth + 1)
-                            if solved and not all_solutions:
-                                break  # return 1 solution
-                        return solved
-            return solved
+                        if len(options) == 0:
+                            return False  # this call is going nowhere
+                        elif len(options) == 1:  # Step 1
+                            puzzle.place_and_erase(i, j, list(options)[0])  # Step 2
+                            edited = True
+            if not edited:  # changed nothing in this round -> either done or stuck
+                if solved:
+                    solution_set.append(grid2str(puzzle.grid))
+                    return True
+                else:  # Find the square with the least number of options
+                    min_guesses = (n + 1, -1)
+                    for i in range(n):
+                        for j in range(n):
+                            options = puzzle.candidates[i][j]
+                            if len(options) > 1:
+                                min_guesses = min((len(options), (i, j)), min_guesses)
+                    i, j = min_guesses[1]
+                    options = puzzle.candidates[i][j]
+                    for y in options:  # step 3. backtracking check point:
+                        puzzle_next = deepcopy(puzzle)
+                        puzzle_next.place_and_erase(i, j, y)
+                        solved = solve(puzzle_next, depth=depth + 1)
+                        if solved and not all_solutions:
+                            break  # return 1 solution
+                    return solved
+        return solved
 
-        calls, depth_max = 0, 0
-        solution_set = []
-        puzzle = Sudoku(grid)
-        n = puzzle.n
+    calls, depth_max = 0, 0
+    solution_set = []
+    puzzle = Sudoku(grid)
+    n = puzzle.n
 
-        solved = solve(puzzle, depth=0)
-        info = {'calls': calls,
-                'max depth': depth_max,
-                'nsolutions': len(solution_set),
-                }
-
-        return solution_set, solved, info
+    solved = solve(puzzle, depth=0)
+    info = {'calls': calls,
+            'max depth': depth_max,
+            'nsolutions': len(solution_set),
+            }
+    unflatten(solution_set)
+    return solution_set, solved, info
 
 
 def flatten(grid) -> List[int]:
@@ -177,7 +178,7 @@ def flatten(grid) -> List[int]:
     return arr
 
 
-def unflatten(arr: List[int], n=9) -> List[List[int]]:
+def unflatten(arr: List[int], n=4) -> List[List[int]]:
     grid = []
     for i in range(0, len(arr), n):
         grid.append(arr[i:i + n])
@@ -196,7 +197,7 @@ def str2arr(string: str) -> List[int]:
     end = string.find('-')
     end = len(string) if end == -1 else end
     for c in string[0:end]:
-        if c == '.':
+        if c == '0':
             arr.append(0)
         else:
             arr.append(int(c))
