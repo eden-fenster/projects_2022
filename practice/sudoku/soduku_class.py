@@ -167,7 +167,7 @@ def solve_sudoku(grid, num_boxes=SIZE, all_solutions=False):
             'max depth': depth_max,
             'nsolutions': len(solution_set),
             }
-    unflatten(solution_set)
+    unflatten(solved)
     return solution_set, solved, info
 
 
