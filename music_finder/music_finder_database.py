@@ -8,7 +8,7 @@ import pyodbc
 class MusicFinderDatabase:
 
     def __init__(self, database_path: str = 'genre.db'):
-        self._connection = pyodbc.connect("Driver=SQLite3;Database="f"{database_path}")
+        self._connection = pyodbc.connect("Driver=SQLite;Database="f"{database_path}")
         self._cursor = self._connection.cursor()
         pass
 
