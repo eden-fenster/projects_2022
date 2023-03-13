@@ -5,6 +5,8 @@ from typing import List, Tuple, Set
 SIZE = 4
 BOX_SIZE = 2
 
+# Not my code, from the internet, incorperating this into my program.
+
 
 class Sudoku:
     def __init__(self, grid: List[List[int]]):
@@ -116,46 +118,47 @@ class Sudoku:
         return uniques
 
 
-def solve_sudoku(grid, num_boxes=SIZE, all_solutions=False):
-    def solve(puzzle, depth=0):
+def solve_sudoku(grid: List[List[int]],
+                 num_boxes: int = SIZE, all_solutions: bool = False) -> Tuple[list, bool, dict[str, int]]:
+    def solve(our_puzzle, depth=0) -> bool:
         nonlocal calls, depth_max
         calls += 1
         depth_max = max(depth, depth_max)
-        solved = False
-        while not solved:
-            solved = True
+        is_solved = False
+        while not is_solved:
+            is_solved = True
             edited = False  # if no edits, either done or stuck
             for i in range(n):
                 for j in range(n):
-                    if puzzle.grid[i][j] == 0:
-                        solved = False
-                        options = puzzle.candidates[i][j]
+                    if our_puzzle.grid[i][j] == 0:
+                        is_solved = False
+                        options = our_puzzle.candidates[i][j]
                         if len(options) == 0:
                             return False  # this call is going nowhere
-                        elif len(options) == 1:  # Step 1
-                            puzzle.place_and_erase(i, j, list(options)[0])  # Step 2
+                        if len(options) == 1:  # Step 1
+                            our_puzzle.place_and_erase(i, j, list(options)[0])  # Step 2
                             edited = True
             if not edited:  # changed nothing in this round -> either done or stuck
-                if solved:
-                    solution_set.append(grid2str(puzzle.grid))
+                if is_solved:
+                    solution_set.append(grid2str(our_puzzle.grid))
                     return True
-                else:  # Find the square with the least number of options
-                    min_guesses = (n + 1, -1)
-                    for i in range(n):
-                        for j in range(n):
-                            options = puzzle.candidates[i][j]
-                            if len(options) > 1:
-                                min_guesses = min((len(options), (i, j)), min_guesses)
-                    i, j = min_guesses[1]
-                    options = puzzle.candidates[i][j]
-                    for y in options:  # step 3. backtracking check point:
-                        puzzle_next = deepcopy(puzzle)
-                        puzzle_next.place_and_erase(i, j, y)
-                        solved = solve(puzzle_next, depth=depth + 1)
-                        if solved and not all_solutions:
-                            break  # return 1 solution
-                    return solved
-        return solved
+                # Find the square with the least number of options
+                min_guesses = (n + 1, -1)
+                for i in range(n):
+                    for j in range(n):
+                        options = our_puzzle.candidates[i][j]
+                        if len(options) > 1:
+                            min_guesses = min((len(options), (i, j)), min_guesses)
+                i, j = min_guesses[1]
+                options = our_puzzle.candidates[i][j]
+                for y in options:  # step 3. backtracking check point:
+                    puzzle_next = deepcopy(our_puzzle)
+                    puzzle_next.place_and_erase(i, j, y)
+                    is_solved = solve(puzzle_next, depth=depth + 1)
+                    if is_solved and not all_solutions:
+                        break  # return 1 solution
+                return is_solved
+        return is_solved
 
     calls, depth_max = 0, 0
     solution_set = []
@@ -167,7 +170,7 @@ def solve_sudoku(grid, num_boxes=SIZE, all_solutions=False):
             'max depth': depth_max,
             'nsolutions': len(solution_set),
             }
-    unflatten(solved)
+    # unflatten(puzzle.grid)
     return solution_set, solved, info
 
 
