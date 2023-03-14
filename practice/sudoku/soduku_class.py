@@ -170,7 +170,6 @@ def solve_sudoku(grid: List[List[int]],
             'max depth': depth_max,
             'nsolutions': len(solution_set),
             }
-    # unflatten(puzzle.grid)
     return solution_set, solved, info
 
 
