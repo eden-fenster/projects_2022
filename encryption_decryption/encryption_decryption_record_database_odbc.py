@@ -5,7 +5,7 @@ import pyodbc
 class EncryptionDecryptionDatabase:
 
     def __init__(self, database_path: str = 'encryption_decryption_records.db'):
-        self._connection = pyodbc.connect("Driver=SQLite3;Database="f"{database_path}")
+        self._connection = pyodbc.connect("Driver=SQLite;Database="f"{database_path}")
         self._cursor = self._connection.cursor()
         pass
 
