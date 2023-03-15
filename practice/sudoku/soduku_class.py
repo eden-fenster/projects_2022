@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
+"""A class that helps us solve a sudoku"""
+import math
 from copy import deepcopy
 from typing import List, Tuple, Set
 
-SIZE = 4
-BOX_SIZE = 2
 
-# Not my code, from the internet, incorperating this into my program.
+# Not my code, from the internet, incorporating this into my program.
 
 
 class Sudoku:
+    """The class object"""
     def __init__(self, grid: List[List[int]]):
-        n = len(grid)
         self.grid = grid
-        self.n = n
+        self.size = len(grid)
+        self.box_size = self.size // 2
         # create a grid of viable candidates for each position
         candidates = []
-        for i in range(n):
+        for i in range(self.size):
             row = []
-            for j in range(n):
+            for j in range(self.size):
                 if grid[i][j] == 0:
                     row.append(self.find_options(i, j))
                 else:
@@ -26,66 +27,71 @@ class Sudoku:
         self.candidates = candidates
 
     def __repr__(self) -> str:
-        repr = ''
+        representation = ''
         for row in self.grid:
-            repr += str(row) + '\n'
-        return repr
+            representation += str(row) + '\n'
+        return representation
 
-    def get_row(self, r: int) -> List[int]:
-        return self.grid[r]
+    def get_row(self, row: int) -> List[int]:
+        """Getting the row"""
+        return self.grid[row]
 
-    def get_col(self, c: int) -> List[int]:
-        return [row[c] for row in self.grid]
+    def get_col(self, col: int) -> List[int]:
+        """Getting the col"""
+        return [row[col] for row in self.grid]
 
-    def get_box_inds(self, r: int, c: int) -> List[Tuple[int, int]]:
+    def get_box_inds(self, row: int, col: int) -> List[Tuple[int, int]]:
+        """Getting the boxes"""
         inds_box = []
-        i0 = (r // BOX_SIZE) * BOX_SIZE  # get first row index
-        j0 = (c // BOX_SIZE) * BOX_SIZE  # get first column index
-        for i in range(i0, i0 + BOX_SIZE):
-            for j in range(j0, j0 + BOX_SIZE):
+        i_0 = (row // self.box_size) * self.box_size  # get first row index
+        j_0 = (col // self.box_size) * self.box_size  # get first column index
+        for i in range(i_0, i_0 + self.box_size):
+            for j in range(j_0, j_0 + self.box_size):
                 inds_box.append((i, j))
         return inds_box
 
-    def get_box(self, r: int, c: int) -> List[int]:
+    def get_box(self, row: int, col: int) -> List[int]:
+        """Getting a lit of boxes"""
         box = []
-        for i, j in self.get_box_inds(r, c):
+        for i, j in self.get_box_inds(row, col):
             box.append(self.grid[i][j])
         return box
 
-    def find_options(self, r: int, c: int) -> Set:
-        nums = set(range(1, SIZE + 1))
-        set_row = set(self.get_row(r))
-        set_col = set(self.get_col(c))
-        set_box = set(self.get_box(r, c))
+    def find_options(self, row: int, col: int) -> Set:
+        """Finding candidates"""
+        nums = set(range(1, self.size + 1))
+        set_row = set(self.get_row(row))
+        set_col = set(self.get_col(col))
+        set_box = set(self.get_box(row, col))
         used = set_row | set_col | set_box
         valid = nums.difference(used)
         return valid
 
-    def place_and_erase(self, r: int, c: int, x: int, constraint_prop=True):
+    def place_and_erase(self, row: int, col: int, number: int, constraint_prop=True):
         """ remove x as a candidate in the grid in this row, column and box"""
         # place candidate x
-        self.grid[r][c] = x
-        self.candidates[r][c] = set()
+        self.grid[row][col] = number
+        self.candidates[row][col] = set()
         # remove candidate x in neighbours
-        inds_row = [(r, j) for j in range(self.n)]
-        inds_col = [(i, c) for i in range(self.n)]
-        inds_box = self.get_box_inds(r, c)
-        erased = [(r, c)]  # set of indices for constraint propagation
-        erased += self.erase([x], inds_row + inds_col + inds_box, [])
+        inds_row = [(row, j) for j in range(self.size)]
+        inds_col = [(i, col) for i in range(self.size)]
+        inds_box = self.get_box_inds(row, col)
+        erased = [(row, col)]  # set of indices for constraint propagation
+        erased += self.erase([number], inds_row + inds_col + inds_box, [])
         # constraint propagation, through every index that was changed
         while erased and constraint_prop:
             i, j = erased.pop()
-            inds_row = [(i, j) for j in range(self.n)]
-            inds_col = [(i, j) for i in range(self.n)]
+            inds_row = [(i, j) for j in range(self.size)]
+            inds_col = [(i, j) for i in range(self.size)]
             inds_box = self.get_box_inds(i, j)
             for inds in [inds_row, inds_col, inds_box]:
                 # apply strategies
                 # 1. hidden singles
                 uniques = self.get_unique(inds)
-                for inds_unique, num in uniques:
+                for inds_unique, number in uniques:
                     i_u, j_u = inds_unique[0]
-                    self.candidates[i_u][j_u] = set(num)
-                    erased += self.erase(num, inds, inds_unique)
+                    self.candidates[i_u][j_u] = set(number)
+                    erased += self.erase(number, inds, inds_unique)
 
     def erase(self, nums, indices, keep):
         """ erase nums as candidates in indices, but not in keep"""
@@ -94,22 +100,24 @@ class Sudoku:
             edited = False
             if (i, j) in keep:
                 continue
-            for x in nums:
-                if x in self.candidates[i][j]:
-                    self.candidates[i][j].remove(x)
+            for num in nums:
+                if num in self.candidates[i][j]:
+                    self.candidates[i][j].remove(num)
                     edited = True
             if edited:
                 erased.append((i, j))
         return erased
 
     def count_candidates(self, indices):
-        count = [[] for _ in range(self.n + 1)]
+        """Counting candidates"""
+        count = [[] for _ in range(self.size + 1)]
         for i, j in indices:
             for num in self.candidates[i][j]:
                 count[num].append((i, j))
         return count
 
     def get_unique(self, indices):
+        """Getting unique candidates"""
         groups = self.count_candidates(indices)
         uniques = []  # final set of unique candidates to return
         for num, group_inds in enumerate(groups):
@@ -118,9 +126,11 @@ class Sudoku:
         return uniques
 
 
-def solve_sudoku(grid: List[List[int]],
-                 num_boxes: int = SIZE, all_solutions: bool = False) -> Tuple[list, bool, dict[str, int]]:
+def solve_sudoku(grid: List[List[int]], all_solutions: bool = False) \
+        -> Tuple[list, bool, dict[str, int]]:
+    """Solving the sudoku"""
     def solve(our_puzzle, depth=0) -> bool:
+        """Solver method"""
         nonlocal calls, depth_max
         calls += 1
         depth_max = max(depth, depth_max)
@@ -128,8 +138,8 @@ def solve_sudoku(grid: List[List[int]],
         while not is_solved:
             is_solved = True
             edited = False  # if no edits, either done or stuck
-            for i in range(n):
-                for j in range(n):
+            for i in range(size):
+                for j in range(size):
                     if our_puzzle.grid[i][j] == 0:
                         is_solved = False
                         options = our_puzzle.candidates[i][j]
@@ -143,17 +153,17 @@ def solve_sudoku(grid: List[List[int]],
                     solution_set.append(grid2str(our_puzzle.grid))
                     return True
                 # Find the square with the least number of options
-                min_guesses = (n + 1, -1)
-                for i in range(n):
-                    for j in range(n):
+                min_guesses = (size + 1, -1)
+                for i in range(size):
+                    for j in range(size):
                         options = our_puzzle.candidates[i][j]
                         if len(options) > 1:
                             min_guesses = min((len(options), (i, j)), min_guesses)
                 i, j = min_guesses[1]
                 options = our_puzzle.candidates[i][j]
-                for y in options:  # step 3. backtracking check point:
+                for option in options:  # step 3. backtracking check point:
                     puzzle_next = deepcopy(our_puzzle)
-                    puzzle_next.place_and_erase(i, j, y)
+                    puzzle_next.place_and_erase(i, j, option)
                     is_solved = solve(puzzle_next, depth=depth + 1)
                     if is_solved and not all_solutions:
                         break  # return 1 solution
@@ -163,7 +173,7 @@ def solve_sudoku(grid: List[List[int]],
     calls, depth_max = 0, 0
     solution_set = []
     puzzle = Sudoku(grid)
-    n = puzzle.n
+    size = puzzle.size
 
     solved = solve(puzzle, depth=0)
     info = {'calls': calls,
@@ -174,20 +184,24 @@ def solve_sudoku(grid: List[List[int]],
 
 
 def flatten(grid) -> List[int]:
+    """Flatten the grid"""
     arr = []
     for row in grid:
         arr.extend(row)
     return arr
 
 
-def unflatten(arr: List[int], n=4) -> List[List[int]]:
+def unflatten(arr: List[int]) -> List[List[int]]:
+    """Unflatten the grid"""
+    num = math.sqrt(len(arr))
     grid = []
-    for i in range(0, len(arr), n):
-        grid.append(arr[i:i + n])
+    for i in range(0, len(arr), num):
+        grid.append(arr[i:i + num])
     return grid
 
 
 def arr2str(arr: List[int]) -> str:
+    """Convert arr to string"""
     string = ''
     for digit in arr:
         string += str(digit)
@@ -195,20 +209,23 @@ def arr2str(arr: List[int]) -> str:
 
 
 def str2arr(string: str) -> List[int]:
+    """Convert string to arr"""
     arr = []
     end = string.find('-')
     end = len(string) if end == -1 else end
-    for c in string[0:end]:
-        if c == '0':
+    for char in string[0:end]:
+        if char == '0':
             arr.append(0)
         else:
-            arr.append(int(c))
+            arr.append(int(char))
     return arr
 
 
 def grid2str(grid: List[List[int]]) -> str:
+    """Convert grid to string"""
     return arr2str(flatten(grid))
 
 
 def str2grid(string: str) -> List[List[int]]:
+    """Convert string to grid"""
     return unflatten(str2arr(string))
