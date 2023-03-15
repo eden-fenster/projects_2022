@@ -22,6 +22,12 @@ def get_args():
 
     return args
 
+def dump_grid(description: str, grid: List[List[int]]) -> None:
+    print(description)
+    for grid_line in grid:
+        grid_line_converted = map(str, grid_line)
+        print(' '.join(grid_line_converted))
+    print("")
 
 def main():
     args = get_args()
@@ -32,11 +38,10 @@ def main():
         logging.error(f"No sudoku found")
         sys.exit(1)
     initial_grid: List[List[int]] = create_sudoku(list_of_lines)
-    grid_dimension: int = len(initial_grid)
-    logging.debug(f"Initial grid is {initial_grid}")
-    solutions, cond, diction = solve_sudoku(grid=initial_grid)
-    for solution in solutions:
-        print(solution)
+    dump_grid(description="Initial grid", grid=initial_grid)
+    solutions, have_solution, information = solve_sudoku(grid=initial_grid)
+    for i, solution in enumerate(solutions):
+        dump_grid(description=f"solution {i + 1}", grid=solution)
 
 
 # Reads in a file
