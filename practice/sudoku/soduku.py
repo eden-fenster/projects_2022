@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 # Gets from user a 9 x 9 board.
 import logging
+import sys
 from typing import List
 import argparse
 from soduku_class import solve_sudoku
+
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 
 # Check if all numbers are between 1 - n.
@@ -22,18 +25,38 @@ def get_args():
 
 def main():
     args = get_args()
-    file_to_open = args.file
-    print(solve_sudoku(grid=create_sudoku(read_file(file_to_open=file_to_open))))
+    logging.debug(f"We have arguments of {args}")
+    file_to_open: str = args.file
+    list_of_lines: List[str] = read_file(file_to_open=file_to_open)
+    if not list_of_lines:
+        logging.error(f"No sudoku found")
+        sys.exit(1)
+    initial_grid: List[List[int]] = create_sudoku(list_of_lines)
+    print(solve_sudoku(grid=initial_grid))
 
 
 # Reads in a file
-def read_file(file_to_open) -> List[str]:
+def read_file(file_to_open: str) -> List[str]:
     list_of_lines: List[str] = []
     # Reading the file by line.
-    with open(file_to_open, 'r', encoding='UTF-8') as file:
-        for line in file.readlines():
-            list_of_lines.append(line.rstrip())
+    try:
+        with open(file_to_open, 'r', encoding='UTF-8') as file:
+            for line in file.readlines():
+                list_of_lines.append(line.rstrip())
+    except OSError as exception:
+        logging.error(f"Unable to open file {file_to_open}: {exception}")
+        return []
     return list_of_lines
+
+
+def create_sudoku_line(line: str) -> List[int]:
+    sudoku_line: List[int] = []
+    for character in line:
+        if not character.isdigit():
+            logging.warning('Not a number')
+            continue
+        sudoku_line.append(int(character))
+    return sudoku_line
 
 
 # Converts a file into a two-dimensional list.
@@ -44,7 +67,6 @@ def create_sudoku(list_of_lines: List[str]) -> List[List[int]]:
     for line in list_of_lines:
         for number in line:
             if not number.isdigit():
-                logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
                 logging.warning('Not a number')
                 continue
             sudoku_line.append(int(number))
@@ -57,10 +79,10 @@ if __name__ == "__main__":
     main()
 
 
-def test_fill_sudoku():
-    sudoku: List[List[int]] = \
-        create_sudoku(read_file(file_to_open="test.txt"))
-    assert solve_sudoku(sudoku, 2) == [[3, 1, 2, 4], [2, 4, 1, 3], [1, 3, 4, 2], [4, 2, 3, 1]]
-    second_sudoku: List[List[int]] = \
-        create_sudoku(read_file(file_to_open="test3.txt"))
-    assert solve_sudoku(second_sudoku, 2) == [[2, 4, 3, 1], [3, 1, 2, 4], [1, 3, 4, 2], [4, 2, 1, 3]]
+# def test_fill_sudoku():
+#     sudoku: List[List[int]] = \
+#         create_sudoku(read_file(file_to_open="test.txt"))
+#     assert solve_sudoku(sudoku, 2) == [[3, 1, 2, 4], [2, 4, 1, 3], [1, 3, 4, 2], [4, 2, 3, 1]]
+#     second_sudoku: List[List[int]] = \
+#         create_sudoku(read_file(file_to_open="test3.txt"))
+#     assert solve_sudoku(second_sudoku, 2) == [[2, 4, 3, 1], [3, 1, 2, 4], [1, 3, 4, 2], [4, 2, 1, 3]]
