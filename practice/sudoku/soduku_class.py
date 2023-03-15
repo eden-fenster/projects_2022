@@ -127,7 +127,7 @@ class Sudoku:
 
 
 def solve_sudoku(grid: List[List[int]], all_solutions: bool = False) \
-        -> Tuple[list, bool, Dict[str, int]]:
+        -> Tuple[List[List[int]], bool, Dict[str, int]]:
     """Solving the sudoku"""
     def solve(our_puzzle, depth=0) -> bool:
         """Solver method"""
@@ -150,7 +150,7 @@ def solve_sudoku(grid: List[List[int]], all_solutions: bool = False) \
                             edited = True
             if not edited:  # changed nothing in this round -> either done or stuck
                 if is_solved:
-                    solution_set.append(grid2str(our_puzzle.grid))
+                    solution_set.append(our_puzzle.grid)
                     return True
                 # Find the square with the least number of options
                 min_guesses = (size + 1, -1)
@@ -171,7 +171,7 @@ def solve_sudoku(grid: List[List[int]], all_solutions: bool = False) \
         return is_solved
 
     calls, depth_max = 0, 0
-    solution_set = []
+    solution_set: List[List[int]] = []
     puzzle = Sudoku(grid)
     size = puzzle.size
 
@@ -180,6 +180,7 @@ def solve_sudoku(grid: List[List[int]], all_solutions: bool = False) \
             'max depth': depth_max,
             'nsolutions': len(solution_set),
             }
+
     return solution_set, solved, info
 
 
@@ -193,7 +194,7 @@ def flatten(grid) -> List[int]:
 
 def unflatten(arr: List[int]) -> List[List[int]]:
     """Unflatten the grid"""
-    num = math.sqrt(len(arr))
+    num: int = int(math.sqrt(len(arr)))
     grid = []
     for i in range(0, len(arr), num):
         grid.append(arr[i:i + num])
