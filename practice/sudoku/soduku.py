@@ -32,7 +32,11 @@ def main():
         logging.error(f"No sudoku found")
         sys.exit(1)
     initial_grid: List[List[int]] = create_sudoku(list_of_lines)
-    print(solve_sudoku(grid=initial_grid))
+    grid_dimension: int = len(initial_grid)
+    logging.debug(f"Initial grid is {initial_grid}")
+    solutions, cond, diction = solve_sudoku(grid=initial_grid)
+    for solution in solutions:
+        print(solution)
 
 
 # Reads in a file
@@ -52,8 +56,10 @@ def read_file(file_to_open: str) -> List[str]:
 def create_sudoku_line(line: str) -> List[int]:
     sudoku_line: List[int] = []
     for character in line:
+        if character == ' ':
+            continue
         if not character.isdigit():
-            logging.warning('Not a number')
+            logging.warning(f"Found a non-numerical character '{character}' in {line}")
             continue
         sudoku_line.append(int(character))
     return sudoku_line
@@ -63,15 +69,9 @@ def create_sudoku_line(line: str) -> List[int]:
 def create_sudoku(list_of_lines: List[str]) -> List[List[int]]:
     # Converting the lines into numbers, creating a two-dimensional list of ints.
     sudoku: List[List[int]] = []
-    sudoku_line: List[int] = []
     for line in list_of_lines:
-        for number in line:
-            if not number.isdigit():
-                logging.warning('Not a number')
-                continue
-            sudoku_line.append(int(number))
+        sudoku_line = create_sudoku_line(line=line)
         sudoku.append(sudoku_line)
-        sudoku_line = []
     return sudoku
 
 

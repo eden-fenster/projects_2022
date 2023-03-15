@@ -2,7 +2,7 @@
 """A class that helps us solve a sudoku"""
 import math
 from copy import deepcopy
-from typing import List, Tuple, Set
+from typing import List, Tuple, Set, Dict
 
 
 # Not my code, from the internet, incorporating this into my program.
@@ -127,7 +127,7 @@ class Sudoku:
 
 
 def solve_sudoku(grid: List[List[int]], all_solutions: bool = False) \
-        -> Tuple[list, bool, dict[str, int]]:
+        -> Tuple[list, bool, Dict[str, int]]:
     """Solving the sudoku"""
     def solve(our_puzzle, depth=0) -> bool:
         """Solver method"""
