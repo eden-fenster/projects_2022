@@ -82,12 +82,3 @@ def create_sudoku(list_of_lines: List[str]) -> List[List[int]]:
 
 if __name__ == "__main__":
     main()
-
-
-# def test_fill_sudoku():
-#     sudoku: List[List[int]] = \
-#         create_sudoku(read_file(file_to_open="test.txt"))
-#     assert solve_sudoku(sudoku, 2) == [[3, 1, 2, 4], [2, 4, 1, 3], [1, 3, 4, 2], [4, 2, 3, 1]]
-#     second_sudoku: List[List[int]] = \
-#         create_sudoku(read_file(file_to_open="test3.txt"))
-#     assert solve_sudoku(second_sudoku, 2) == [[2, 4, 3, 1], [3, 1, 2, 4], [1, 3, 4, 2], [4, 2, 1, 3]]

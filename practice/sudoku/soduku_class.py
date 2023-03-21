@@ -13,7 +13,7 @@ class Sudoku:
     def __init__(self, grid: List[List[int]]):
         self.grid = grid
         self.size = len(grid)
-        self.box_size = self.size // 2
+        self.box_size = self.size // int(math.sqrt(self.size))
         # create a grid of viable candidates for each position
         candidates = []
         for i in range(self.size):
