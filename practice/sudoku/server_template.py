@@ -1,9 +1,11 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
+DEFAULT_PATH = "/index.html"
+
 class Server(BaseHTTPRequestHandler):
 
-    def do_GET(self, path: str):
-        self.path = path
+    def do_GET(self):
+        self.path = DEFAULT_PATH
         try:
             file_to_open = open(self.path[1:]).read()
             self.send_response(200)
