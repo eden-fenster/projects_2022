@@ -1,10 +1,9 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-class SudokuServer(BaseHTTPRequestHandler):
+class Server(BaseHTTPRequestHandler):
 
-    def do_GET(self):
-        if self.path == '/':
-            self.path = '/index.html'
+    def do_GET(self, path: str):
+        self.path = path
         try:
             file_to_open = open(self.path[1:]).read()
             self.send_response(200)
@@ -15,5 +14,5 @@ class SudokuServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes(file_to_open, 'utf-8'))
 
 
-httpd = HTTPServer(('localhost', 8080), SudokuServer)
+httpd = HTTPServer(('localhost', 8080), Server)
 httpd.serve_forever()
