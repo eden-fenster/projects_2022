@@ -8,13 +8,13 @@ import soduku
 app = Flask(__name__)
 
 
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+
+
 @app.route('/')
 def index():
-    return render_template('index.html')
-
-
-@app.route('/')
-def app():
     print("Input a file")
     file = 'test.txt'
     read_file: List[str] = soduku.read_file(file_to_open=file)
