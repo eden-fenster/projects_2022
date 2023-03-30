@@ -34,8 +34,8 @@ def print_grid(description: str, grid: List[List[int]]) -> str:
     grid_string: str = ''
     for grid_line in grid:
         grid_line_converted = map(str, grid_line)
-        grid_string += ' '.join(grid_line_converted) + "\n"
-        logging.debug(f"The grid so far is {grid_string}")
+        grid_string += ' '.join(grid_line_converted) + "<br>"
+        logging.debug(f"The grid so far is \n {grid_string}")
     return grid_string
 
 def main():

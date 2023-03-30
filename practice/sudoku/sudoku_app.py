@@ -23,5 +23,5 @@ def index():
     for i, solution in enumerate(solutions):
        solved_grid_string += soduku.print_grid(description=f"solution {i + 1}", grid=solution)
 
-    return "The initial grid: <br>" + initial_grid_string + "\nThe solved grid \n" + solved_grid_string
+    return "The initial grid: <br>" + initial_grid_string + "<br>The solved grid: <br>" + solved_grid_string
 
