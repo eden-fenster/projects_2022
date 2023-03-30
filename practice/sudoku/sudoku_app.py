@@ -17,9 +17,11 @@ def index():
         logging.error(f"No sudoku found")
         sys.exit(1)
     initial_grid: List[List[int]] = soduku.create_sudoku(read_file)
-    soduku.dump_grid(description="Initial grid", grid=initial_grid)
+    initial_grid_string = soduku.print_grid(description="Initial grid", grid=initial_grid)
     solutions, have_solution, information = soduku.solve_sudoku(grid=initial_grid)
-    return_sudoku = ''
+    solved_grid_string: str = ''
     for i, solution in enumerate(solutions):
-        return_sudoku += soduku.dump_grid(description=f"solution {i + 1}", grid=solution)
-    return return_sudoku
+       solved_grid_string += soduku.print_grid(description=f"solution {i + 1}", grid=solution)
+
+    return "The initial grid: <br>" + initial_grid_string + "\nThe solved grid \n" + solved_grid_string
+

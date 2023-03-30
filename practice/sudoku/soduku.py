@@ -29,6 +29,15 @@ def dump_grid(description: str, grid: List[List[int]]) -> None:
         print(' '.join(grid_line_converted))
     print("")
 
+def print_grid(description: str, grid: List[List[int]]) -> str:
+    print(description)
+    grid_string: str = ''
+    for grid_line in grid:
+        grid_line_converted = map(str, grid_line)
+        grid_string += ' '.join(grid_line_converted) + "\n"
+        logging.debug(f"The grid so far is {grid_string}")
+    return grid_string
+
 def main():
     args = get_args()
     logging.debug(f"We have arguments of {args}")
