@@ -1,6 +1,6 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-DEFAULT_PATH = "/index.html"
+# DEFAULT_PATH = "/Index.html"
 
 class Server(BaseHTTPRequestHandler):
 
