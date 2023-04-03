@@ -4,7 +4,7 @@ import logging
 import sys
 from typing import List
 import argparse
-from soduku_class import solve_sudoku
+from sudoku_class import solve_sudoku
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 

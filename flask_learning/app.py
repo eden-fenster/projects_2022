@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, render_template
+from flask import *
 
 
 def get_db_connection():
@@ -8,7 +8,23 @@ def get_db_connection():
     return conn
 
 
+def get_post(post_id: int):
+    conn = get_db_connection()
+    post = conn.execute('SELECT * FROM posts WHERE id = (?)',
+                        int(post_id)).fetchone()
+    conn.close()
+    if post is None:
+        abort(404)
+    return post
+
+
 app = Flask(__name__)
+
+
+@app.route('/<int:post_id>')
+def post(post_id):
+    post = get_post(post_id)
+    return render_template('post.html', post=post)
 
 
 @app.route('/')
@@ -16,4 +32,4 @@ def index():
     conn = get_db_connection()
     posts = conn.execute('SELECT * FROM posts').fetchall()
     conn.close()
-    return render_template('Index.html', posts=posts)
+    return render_template('index.html', posts=posts)

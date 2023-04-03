@@ -4,7 +4,7 @@ from typing import List
 
 import click
 from flask import Flask
-import soduku
+import sudoku
 
 app = Flask(__name__)
 
