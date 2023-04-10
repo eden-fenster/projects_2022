@@ -1,6 +1,0 @@
-Flask
-MarkupSafe
-Werkzeug
-itsdangerous
-Jinja2
-click
