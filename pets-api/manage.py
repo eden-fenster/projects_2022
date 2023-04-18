@@ -1,7 +1,7 @@
 # Set the path
 import os
 import sys
-from flask_script import *
+from flask import Manager, Server
 from application import create_app
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
