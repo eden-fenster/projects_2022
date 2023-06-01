@@ -1,0 +1,9 @@
+click
+Flask
+jsonify
+requests
+redis
+itsdangerous
+Jinja2
+MarkupSafe
+Werkzeug

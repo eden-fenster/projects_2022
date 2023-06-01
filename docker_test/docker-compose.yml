@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  con_1:
+    build:
+      context: .
+      dockerfile: con_1/Dockerfile
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    container_name: con_1
+    hostname: con_1
+
+
+
+  con_2:
+    build:
+      context: .
+      dockerfile: con_2/Dockerfile
+    ports:
+      - "8000:8000"
+    expose:
+      - 8000
+    container_name: con_2
+    hostname: con_2
